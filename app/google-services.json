@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "636606507658",
+    "project_id": "pansala-android-project",
+    "storage_bucket": "pansala-android-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636606507658:android:27d6682f46b709f0429b73",
+        "android_client_info": {
+          "package_name": "com.ddr.pansala"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636606507658-a4d8ka6c9ejh06lpfvcskaq087dfcb05.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOw-mmewoqlCFIpffM0u23CLjjt7tCnpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636606507658-a4d8ka6c9ejh06lpfvcskaq087dfcb05.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
