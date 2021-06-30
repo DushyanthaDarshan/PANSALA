@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             isEmailValid = false;
         } else  {
             isEmailValid = true;
-//            emailError.setErrorEnabled(false);
         }
 
         // Check for a valid password.
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
             isPasswordValid = false;
         } else  {
             isPasswordValid = true;
-//            passwordError.setErrorEnabled(false);
         }
 
         if (!isEmailValid && !isPasswordValid) {
