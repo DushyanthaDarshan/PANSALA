@@ -32,12 +32,13 @@
                 android:src="@drawable/pansala_logo" />
 
             <LinearLayout
+                android:id="@+id/aaa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/login_username"
+                    android:id="@+id/login_email"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -96,7 +97,7 @@
                     android:buttonTint="@color/white"
                     android:checked="true"/>
                 <TextView
-                    android:id="@+id/Forgot_Password"
+                    android:id="@+id/forgot_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Forget Password"
@@ -112,7 +113,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/Log_Btn"
+                android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Log In"
@@ -124,7 +125,7 @@
                 android:background="@drawable/login_shape"/>
 
             <Button
-                android:id="@+id/Reg_Btn"
+                android:id="@+id/signUp_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sign Up"
