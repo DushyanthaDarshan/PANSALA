@@ -1,5 +1,6 @@
 package com.ddr.pansala;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.annotations.NotNull;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText loginEmail, loginPassword;
@@ -24,11 +31,14 @@ public class MainActivity extends AppCompatActivity {
     Boolean isEmailValid, isPasswordValid;
     String emailError = null;
     String passwordError = null;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        auth = FirebaseAuth.getInstance();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("පන්සල");
@@ -62,10 +72,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void validateEmailAndPassword() {
         // Check for a valid email address.
-        if (loginEmail.getText().toString().isEmpty()) {
+        String email = loginEmail.getText().toString();
+        if (email.isEmpty()) {
             emailError = "Provided email is empty";
             isEmailValid = false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(loginEmail.getText().toString()).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailError = "Provided email is not valid email";
             isEmailValid = false;
         } else  {
@@ -73,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Check for a valid password.
-        if (loginPassword.getText().toString().isEmpty()) {
+        String password = loginPassword.getText().toString();
+        if (password.isEmpty()) {
             passwordError = "Provided password is empty";
             isPasswordValid = false;
         } else if (loginPassword.getText().length() < 6) {
@@ -95,7 +107,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (isEmailValid && isPasswordValid) {
-            Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
+//                        finish();
+                    }
+                }
+            });
         }
 
     }
