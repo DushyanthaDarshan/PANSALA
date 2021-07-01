@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,12 +26,12 @@ import com.google.firebase.database.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText loginEmail, loginPassword;
-    Button loginBtn, signUpBtn;
-    TextView errorMessageView, forgotPassword;
-    Boolean isEmailValid, isPasswordValid;
-    String emailError = null;
-    String passwordError = null;
+    private EditText loginEmail, loginPassword;
+    private Button loginBtn, signUpBtn;
+    private TextView errorMessageView, forgotPassword;
+    private Boolean isEmailValid, isPasswordValid;
+    private String emailError = null;
+    private String passwordError = null;
     private FirebaseAuth auth;
 
     @Override
@@ -64,9 +65,8 @@ public class MainActivity extends AppCompatActivity {
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "This feature will be coming soon", Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivity(intent);
             }
         });
 
