@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText loginEmail, loginPassword;
     Button loginBtn, signUpBtn;
-    TextView errorMessageView;
+    TextView errorMessageView, forgotPassword;
     Boolean isEmailValid, isPasswordValid;
     String emailError = null;
     String passwordError = null;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         loginPassword = (EditText) findViewById(R.id.login_password);
         loginBtn = (Button) findViewById(R.id.login_btn);
         signUpBtn = (Button) findViewById(R.id.signUp_btn);
+        forgotPassword = (TextView) findViewById(R.id.forgot_password);
 
         //Login button related
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
         //Sign up button related
         signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "This feature will be coming soon", Toast.LENGTH_LONG).show();
+//                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+//                startActivity(intent);
+            }
+        });
+
+        //Forgot password button related
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "This feature will be coming soon", Toast.LENGTH_LONG).show();
