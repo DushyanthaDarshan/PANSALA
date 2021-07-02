@@ -15,11 +15,13 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.NotNull;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private Boolean isEmailValid, isPasswordValid;
     private String emailError = null;
     private String passwordError = null;
+    private TextInputLayout emailErrorTextInput, passErrorTextInput;
+    private ProgressBar progressBar;
     private FirebaseAuth auth;
 
     @Override
@@ -51,7 +55,10 @@ public class MainActivity extends AppCompatActivity {
         loginPassword = (EditText) findViewById(R.id.login_password);
         loginBtn = (Button) findViewById(R.id.login_btn);
         signUpBtn = (Button) findViewById(R.id.signUp_btn);
+        emailErrorTextInput = (TextInputLayout) findViewById(R.id.login_email_error);
+        passErrorTextInput = (TextInputLayout) findViewById(R.id.login_password_error);
         forgotPassword = (TextView) findViewById(R.id.forgot_password);
+        progressBar = (ProgressBar) findViewById(R.id.login_progress_bar);
 
         //Login button related
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -86,44 +93,55 @@ public class MainActivity extends AppCompatActivity {
         String email = loginEmail.getText().toString();
         if (email.isEmpty()) {
             emailError = "Provided email is empty";
+            emailErrorTextInput.setError(emailError);
             isEmailValid = false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailError = "Provided email is not valid email";
+            emailErrorTextInput.setError(emailError);
             isEmailValid = false;
         } else  {
             isEmailValid = true;
+            emailErrorTextInput.setErrorEnabled(false);
         }
 
         // Check for a valid password.
         String password = loginPassword.getText().toString();
         if (password.isEmpty()) {
             passwordError = "Provided password is empty";
+            passErrorTextInput.setError(passwordError);
             isPasswordValid = false;
-        } else if (loginPassword.getText().length() < 6) {
+        } else if (password.length() < 6) {
             passwordError = "Provided password is too short";
+            passErrorTextInput.setError(passwordError);
             isPasswordValid = false;
-        } else if (loginPassword.getText().length() > 6) {
+        } else if (password.length() > 6) {
             passwordError = "Provided password is too long";
+            passErrorTextInput.setError(passwordError);
             isPasswordValid = false;
         } else  {
             isPasswordValid = true;
+            passErrorTextInput.setErrorEnabled(false);
         }
 
-        if (!isEmailValid && !isPasswordValid) {
-            showErrorDialog("Provided email and password are in invalid format");
-        } else if (!isEmailValid) {
-            showErrorDialog(emailError);
-        } else if (!isPasswordValid) {
-            showErrorDialog(passwordError);
-        }
+//        if (!isEmailValid && !isPasswordValid) {
+//            showErrorDialog("Provided email and password are in invalid format");
+//        } else if (!isEmailValid) {
+//            showErrorDialog(emailError);
+//        } else if (!isPasswordValid) {
+//            showErrorDialog(passwordError);
+//        }
 
         if (isEmailValid && isPasswordValid) {
+            progressBar.setVisibility(View.VISIBLE);
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
 //                        finish();
+                    } else {
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             });
@@ -131,23 +149,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void showErrorDialog(String errorMessage) {
-        final View errorMessageLayout = getLayoutInflater().inflate(R.layout.display_error_message, null);
-        errorMessageView = (TextView) errorMessageLayout.findViewById(R.id.error_message);
+//    public void showErrorDialog(String errorMessage) {
+//        final View errorMessageLayout = getLayoutInflater().inflate(R.layout.display_error_message, null);
+//        errorMessageView = (TextView) errorMessageLayout.findViewById(R.id.error_message);
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle(Html.fromHtml("<font color='#F11D1D'>Error</font>"));
+//        errorMessageView.setText(errorMessage);
+//        builder.setView(errorMessageLayout);
+//
+//        builder.setPositiveButton(Html.fromHtml("<font color='#F11D1D'>OK</font>"), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//    }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(Html.fromHtml("<font color='#F11D1D'>Error</font>"));
-        errorMessageView.setText(errorMessage);
-        builder.setView(errorMessageLayout);
-
-        builder.setPositiveButton(Html.fromHtml("<font color='#F11D1D'>OK</font>"), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.GONE);
     }
 }
