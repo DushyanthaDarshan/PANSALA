@@ -260,7 +260,7 @@ public class SignupActivity extends AppCompatActivity {
         new SweetAlertDialog(
                 this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("Great!")
-                .setContentText("Login Success.")
+                .setContentText("Registration Success.")
                 .setConfirmText("Continue")
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
