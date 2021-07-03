@@ -46,8 +46,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="161dp"
-                    android:layout_height="87dp"
+                    android:layout_width="137dp"
+                    android:layout_height="66dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:foregroundGravity="center"
@@ -58,6 +58,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/register_name_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/yellow_foreground_for_login"
+                    android:layout_gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/register_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="         Name"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:layout_gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_baseline_person_outline_24"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/register_email_error"
@@ -149,9 +170,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
+                    android:id="@+id/already_sinIn_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Already have an account?   "

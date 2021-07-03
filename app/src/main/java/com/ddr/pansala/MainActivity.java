@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         // Check for a valid email address.
         String email = loginEmail.getText().toString();
         if (email.isEmpty()) {
-            emailError = "Provided email is empty";
+            emailError = "Email should not be empty";
             emailErrorTextInput.setError(emailError);
             isEmailValid = false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         // Check for a valid password.
         String password = loginPassword.getText().toString();
         if (password.isEmpty()) {
-            passwordError = "Provided password is empty";
+            passwordError = "Password should not be empty";
             passErrorTextInput.setError(passwordError);
             isPasswordValid = false;
         } else if (password.length() < 6) {
@@ -138,7 +139,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
+                        FirebaseUser user = auth.getCurrentUser();
+                        if (user != null) {
+                            Toast.makeText(getApplicationContext(), user.getUid(), Toast.LENGTH_SHORT).show();
+
+                        }
 //                        finish();
                     } else {
                         progressBar.setVisibility(View.GONE);
