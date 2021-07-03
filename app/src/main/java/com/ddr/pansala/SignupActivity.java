@@ -5,10 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -24,18 +28,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import static android.content.ContentValues.TAG;
 
 public class SignupActivity extends AppCompatActivity {
 
     private EditText registerEmail, registerPassword, registerConfirmPassword, registerName;
     private Button registerBtn;
-    private TextView alreadySignText, alreadySign;
-    private Boolean isNameValid, isEmailValid, isPasswordValid;
+    private TextView alreadySignText, alreadySign, errorMessageView;
+    private Boolean isNameValid, isEmailValid, isPasswordValid, isAlreadyRegistered;
     private TextInputLayout emailErrorr, passError, nameError;
     private String emailError = null;
     private String passwordError = null;
@@ -81,7 +89,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        alreadySignText.setOnClickListener(new View.OnClickListener() {
+        alreadySign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent openLoginActivity = new Intent(getApplicationContext(), MainActivity.class);
@@ -92,32 +100,59 @@ public class SignupActivity extends AppCompatActivity {
 
     private void firebaseProcess(String email, String password, String name) {
         progressBar.setVisibility(View.VISIBLE);
+        isAlreadyRegistered = false;
 
-        auth.createUserWithEmailAndPassword(email, password)
-        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+        rootNode = FirebaseDatabase.getInstance();
+        reference = rootNode.getReference("USER");
+
+        reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                progressBar.setVisibility(View.GONE);
-
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
-
-                    FirebaseUser user = auth.getCurrentUser();
-                    rootNode = FirebaseDatabase.getInstance();
-                    reference = rootNode.getReference("USER");
-                    String key = reference.push().getKey();
-
-                    UserRole userRole = new UserRole(user.getUid(), name, email, "USER");
-                    reference.child(key).setValue(userRole, new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
-                            Toast.makeText(SignupActivity.this, "user home page", Toast.LENGTH_LONG).show();
-                            //                            startActivity(new Intent(SignupActivity.this, MainActivity.class));
-                            //                                                finish();
+                    for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
+                        UserRole userRole = dataSnapshot.getValue(UserRole.class);
+                        if (userRole != null) {
+                            if (userRole.getEmail().equals(email)) {
+                                isAlreadyRegistered = true;
+                            }
                         }
-                    });
+                    }
+
+                    if (!isAlreadyRegistered) {
+                        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressBar.setVisibility(View.GONE);
+
+                                if (task.isSuccessful()) {
+
+                                    FirebaseUser user = auth.getCurrentUser();
+                                    String key = reference.push().getKey();
+                                    long unixTime = System.currentTimeMillis() / 1000L;
+
+                                    UserRole userRole = new UserRole(user.getUid(), name, email, "USER", user.getUid(), unixTime);
+                                    reference.child(key).setValue(userRole, new DatabaseReference.CompletionListener() {
+                                        @Override
+                                        public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
+                                            finish();
+                                            Intent restartActivity = new Intent(getApplicationContext(), SignupActivity.class);
+                                            startActivity(restartActivity);
+//                                        Toast.makeText(SignupActivity.this, "user home page", Toast.LENGTH_LONG).show();
+                                            //                            startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        showErrorDialog("The email address is already in use by another account");
+                    }
                 } else {
-                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
-                            Toast.LENGTH_SHORT).show();
+                    showErrorDialog("Internal server error");
                 }
             }
         });
@@ -177,6 +212,30 @@ public class SignupActivity extends AppCompatActivity {
             alreadySign.setTextSize(13l);
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+    public void showErrorDialog(String errorMessage) {
+        final View errorMessageLayout = getLayoutInflater().inflate(R.layout.display_error_message, null);
+        errorMessageView = (TextView) errorMessageLayout.findViewById(R.id.error_message);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(Html.fromHtml("<font color='#F11D1D'>Error</font>"));
+        errorMessageView.setText(errorMessage);
+        builder.setView(errorMessageLayout);
+
+        builder.setPositiveButton(Html.fromHtml("<font color='#F11D1D'>OK</font>"), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                finish();
+                Intent restartActivity = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivity(restartActivity);
+            }
+        });
+
+        progressBar.setVisibility(View.GONE);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 //    @Override

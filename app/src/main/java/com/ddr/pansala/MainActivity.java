@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout emailErrorTextInput, passErrorTextInput;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
+    private FirebaseDatabase rootNode;
+    private DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,9 +150,38 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
                         FirebaseUser user = auth.getCurrentUser();
+                        rootNode = FirebaseDatabase.getInstance();
+                        reference = rootNode.getReference("USER");
                         if (user != null) {
-                            Toast.makeText(getApplicationContext(), user.getUid(), Toast.LENGTH_SHORT).show();
+                            String userId = user.getUid();
+                            reference.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull @org.jetbrains.annotations.NotNull DataSnapshot snapshot) {
+                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        UserRole userRole = dataSnapshot.getValue(UserRole.class);
+                                        if (userRole != null) {
+                                            if (userRole.getUserId().equals(userId)) {
+                                                String userType = userRole.getUserType();
+                                                if (userType.equals("SUPER_ADMIN")) {
+                                                    Toast.makeText(getApplicationContext(), "SUPER ADMIN page will be coming soon", Toast.LENGTH_LONG).show();
+                                                } else if (userType.equals("ADMIN")) {
+                                                    Toast.makeText(getApplicationContext(), "ADMIN page will be coming soon", Toast.LENGTH_LONG).show();
+                                                } else if (userType.equals("USER")) {
+                                                    Toast.makeText(getApplicationContext(), "USER page will be coming soon", Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "You are a not registered user", Toast.LENGTH_LONG).show();
+                                                }
+                                                Log.d(TAG, "Value is: " + userRole);
+                                            }
+                                        }
+                                    }
+                                }
 
+                                @Override
+                                public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError error) {
+                                    Log.w(TAG, "Failed to read value.", error.toException());
+                                }
+                            });
                         }
 //                        finish();
                     } else {
