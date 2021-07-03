@@ -33,6 +33,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
@@ -163,7 +165,8 @@ public class MainActivity extends AppCompatActivity {
                                             if (userRole.getUserId().equals(userId)) {
                                                 String userType = userRole.getUserType();
                                                 if (userType.equals("SUPER_ADMIN")) {
-                                                    Toast.makeText(getApplicationContext(), "SUPER ADMIN page will be coming soon", Toast.LENGTH_LONG).show();
+                                                    Intent openSuperAdminHomePage = new Intent(getApplicationContext(), SuperAdminHomePage.class);
+                                                    showSuccessDialog(openSuperAdminHomePage);
                                                 } else if (userType.equals("ADMIN")) {
                                                     Toast.makeText(getApplicationContext(), "ADMIN page will be coming soon", Toast.LENGTH_LONG).show();
                                                 } else if (userType.equals("USER")) {
@@ -193,6 +196,46 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void showSuccessDialog(Intent openActivity) {
+        new SweetAlertDialog(
+                this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Great!")
+                .setContentText("Login Success.")
+                .setConfirmText("Continue")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog
+                                .setConfirmClickListener(null);
+                        startActivity(openActivity);
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Exit")
+                .setContentText("Do you want to exit from the app? ")
+                .setConfirmText("Yes")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                        finish();
+                        System.exit(0);
+                    }
+                })
+                .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
+    }
+
 //    public void showErrorDialog(String errorMessage) {
 //        final View errorMessageLayout = getLayoutInflater().inflate(R.layout.display_error_message, null);
 //        errorMessageView = (TextView) errorMessageLayout.findViewById(R.id.error_message);
@@ -213,9 +256,9 @@ public class MainActivity extends AppCompatActivity {
 //        dialog.show();
 //    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        progressBar.setVisibility(View.GONE);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        progressBar.setVisibility(View.GONE);
+//    }
 }
