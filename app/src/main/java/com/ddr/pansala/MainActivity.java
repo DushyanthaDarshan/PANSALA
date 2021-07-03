@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         sweetAlertDialog
-                                .setConfirmClickListener(null);
+                                .dismiss();
                         startActivity(openActivity);
                     }
                 })

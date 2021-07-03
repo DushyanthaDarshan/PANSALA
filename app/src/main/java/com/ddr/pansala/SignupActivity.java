@@ -36,6 +36,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 import static android.content.ContentValues.TAG;
 
 public class SignupActivity extends AppCompatActivity {
@@ -134,9 +136,8 @@ public class SignupActivity extends AppCompatActivity {
                                     reference.child(key).setValue(userRole, new DatabaseReference.CompletionListener() {
                                         @Override
                                         public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
-                                            finish();
-                                            Intent restartActivity = new Intent(getApplicationContext(), SignupActivity.class);
-                                            startActivity(restartActivity);
+                                            Intent restartActivity = new Intent(getApplicationContext(), SuperAdminHomePage.class);
+                                            showSuccessDialog(restartActivity);
 //                                        Toast.makeText(SignupActivity.this, "user home page", Toast.LENGTH_LONG).show();
                                             //                            startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                         }
@@ -215,27 +216,61 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void showErrorDialog(String errorMessage) {
-        final View errorMessageLayout = getLayoutInflater().inflate(R.layout.display_error_message, null);
-        errorMessageView = (TextView) errorMessageLayout.findViewById(R.id.error_message);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(Html.fromHtml("<font color='#F11D1D'>Error</font>"));
-        errorMessageView.setText(errorMessage);
-        builder.setView(errorMessageLayout);
-
-        builder.setPositiveButton(Html.fromHtml("<font color='#F11D1D'>OK</font>"), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                finish();
-                Intent restartActivity = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivity(restartActivity);
-            }
-        });
-
+        new SweetAlertDialog(SignupActivity.this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText(errorMessage)
+                .setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismiss();
+                        finish();
+                        Intent restartActivity = new Intent(getApplicationContext(), SignupActivity.class);
+                        startActivity(restartActivity);
+                    }
+                })
+                .show();
         progressBar.setVisibility(View.GONE);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+
+
+//        final View errorMessageLayout = getLayoutInflater().inflate(R.layout.display_error_message, null);
+//        errorMessageView = (TextView) errorMessageLayout.findViewById(R.id.error_message);
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle(Html.fromHtml("<font color='#F11D1D'>Error</font>"));
+//        errorMessageView.setText(errorMessage);
+//        builder.setView(errorMessageLayout);
+//
+//        builder.setPositiveButton(Html.fromHtml("<font color='#F11D1D'>OK</font>"), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//                finish();
+//                Intent restartActivity = new Intent(getApplicationContext(), SignupActivity.class);
+//                startActivity(restartActivity);
+//            }
+//        });
+//
+//        progressBar.setVisibility(View.GONE);
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+    }
+
+    public void showSuccessDialog(Intent openActivity) {
+        new SweetAlertDialog(
+                this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Great!")
+                .setContentText("Login Success.")
+                .setConfirmText("Continue")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog
+                                .dismiss();
+                        startActivity(openActivity);
+                    }
+                })
+                .show();
     }
 
 //    @Override
