@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         forgotPassword = (TextView) findViewById(R.id.forgot_password);
         progressBar = (ProgressBar) findViewById(R.id.login_progress_bar);
 
+        rootNode = FirebaseDatabase.getInstance();
+        reference = rootNode.getReference("USER");
+
         //Login button related
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +103,26 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if(currentUser != null){
+            CommonMethods.clearSession(getApplicationContext());
+            reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
+                            UserRole userRole = dataSnapshot.getValue(UserRole.class);
+                            populateUserType(userRole, currentUser.getUid());
+                        }
+                    }
+                }
+            });
+        }
     }
 
     public void validateEmailAndPassword() {
@@ -150,10 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        progressBar.setVisibility(View.GONE);
                         FirebaseUser user = auth.getCurrentUser();
-                        rootNode = FirebaseDatabase.getInstance();
-                        reference = rootNode.getReference("USER");
                         if (user != null) {
                             String userId = user.getUid();
                             reference.addValueEventListener(new ValueEventListener() {
@@ -161,22 +182,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull @org.jetbrains.annotations.NotNull DataSnapshot snapshot) {
                                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                         UserRole userRole = dataSnapshot.getValue(UserRole.class);
-                                        if (userRole != null) {
-                                            if (userRole.getUserId().equals(userId)) {
-                                                String userType = userRole.getUserType();
-                                                if (userType.equals("SUPER_ADMIN")) {
-                                                    Intent openSuperAdminHomePage = new Intent(getApplicationContext(), SuperAdminHomePage.class);
-                                                    showSuccessDialog(openSuperAdminHomePage);
-                                                } else if (userType.equals("ADMIN")) {
-                                                    Toast.makeText(getApplicationContext(), "ADMIN page will be coming soon", Toast.LENGTH_LONG).show();
-                                                } else if (userType.equals("USER")) {
-                                                    Toast.makeText(getApplicationContext(), "USER page will be coming soon", Toast.LENGTH_LONG).show();
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(), "You are a not registered user", Toast.LENGTH_LONG).show();
-                                                }
-                                                Log.d(TAG, "Value is: " + userRole);
-                                            }
-                                        }
+                                        populateUserType(userRole, userId);
                                     }
                                 }
 
@@ -189,11 +195,32 @@ public class MainActivity extends AppCompatActivity {
 //                        finish();
                     } else {
                         progressBar.setVisibility(View.GONE);
+                        showErrorDialog("Please check your email and password");
                     }
                 }
             });
         }
+    }
 
+    private void populateUserType(UserRole userRole, String userId) {
+        if (userRole != null) {
+            if (userRole.getUserId().equals(userId)) {
+                CommonMethods.saveSession(getApplicationContext(), userRole);
+                progressBar.setVisibility(View.GONE);
+                String userType = userRole.getUserType();
+                if (userType.equals("SUPER_ADMIN")) {
+                    Intent openSuperAdminHomePage = new Intent(getApplicationContext(), SuperAdminHomePage.class);
+                    showSuccessDialog(openSuperAdminHomePage);
+                } else if (userType.equals("ADMIN")) {
+                    Toast.makeText(getApplicationContext(), "ADMIN page will be coming soon", Toast.LENGTH_LONG).show();
+                } else if (userType.equals("USER")) {
+                    Toast.makeText(getApplicationContext(), "USER page will be coming soon", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "You are a not registered user", Toast.LENGTH_LONG).show();
+                }
+                Log.d(TAG, "Value is: " + userRole);
+            }
+        }
     }
 
     public void showSuccessDialog(Intent openActivity) {
@@ -236,29 +263,18 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-//    public void showErrorDialog(String errorMessage) {
-//        final View errorMessageLayout = getLayoutInflater().inflate(R.layout.display_error_message, null);
-//        errorMessageView = (TextView) errorMessageLayout.findViewById(R.id.error_message);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle(Html.fromHtml("<font color='#F11D1D'>Error</font>"));
-//        errorMessageView.setText(errorMessage);
-//        builder.setView(errorMessageLayout);
-//
-//        builder.setPositiveButton(Html.fromHtml("<font color='#F11D1D'>OK</font>"), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-//    }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        progressBar.setVisibility(View.GONE);
-//    }
+    public void showErrorDialog(String errorMessage) {
+        new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText(errorMessage)
+                .setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismiss();
+                    }
+                })
+                .show();
+        progressBar.setVisibility(View.GONE);
+    }
 }

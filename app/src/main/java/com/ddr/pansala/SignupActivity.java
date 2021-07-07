@@ -231,29 +231,6 @@ public class SignupActivity extends AppCompatActivity {
                 })
                 .show();
         progressBar.setVisibility(View.GONE);
-
-
-//        final View errorMessageLayout = getLayoutInflater().inflate(R.layout.display_error_message, null);
-//        errorMessageView = (TextView) errorMessageLayout.findViewById(R.id.error_message);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle(Html.fromHtml("<font color='#F11D1D'>Error</font>"));
-//        errorMessageView.setText(errorMessage);
-//        builder.setView(errorMessageLayout);
-//
-//        builder.setPositiveButton(Html.fromHtml("<font color='#F11D1D'>OK</font>"), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//                finish();
-//                Intent restartActivity = new Intent(getApplicationContext(), SignupActivity.class);
-//                startActivity(restartActivity);
-//            }
-//        });
-//
-//        progressBar.setVisibility(View.GONE);
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
     }
 
     public void showSuccessDialog(Intent openActivity) {

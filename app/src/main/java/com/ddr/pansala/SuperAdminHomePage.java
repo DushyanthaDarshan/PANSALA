@@ -5,20 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SuperAdminHomePage extends AppCompatActivity {
+
+    private LinearLayout sAdminHomeTemplesLayout, sAdminHomeContributorsLayout, sAdminHomeNoticesLayout;
+    private TextView sAdminHomeHiText;
+    private ImageView sAdminHomeAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,50 @@ public class SuperAdminHomePage extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+
+        sAdminHomeTemplesLayout = (LinearLayout) findViewById(R.id.s_admin_home_temples_layout);
+        sAdminHomeContributorsLayout = (LinearLayout) findViewById(R.id.s_admin_home_contributors_layout);
+        sAdminHomeNoticesLayout = (LinearLayout) findViewById(R.id.s_admin_home_notices_layout);
+        sAdminHomeHiText = (TextView) findViewById(R.id.s_admin_home_hi_text);
+        sAdminHomeAvatar = (ImageView) findViewById(R.id.s_admin_home_avatar);
+
+        String name = CommonMethods.getName();
+        sAdminHomeHiText.setText("ආයුබෝවන් " + name);
+
+        sAdminHomeAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                populateShowAvatarDialog();
+            }
+        });
+    }
+
+    private void populateShowAvatarDialog() {
+        final View avatarLayout = getLayoutInflater().inflate(R.layout.avatar_dialog, null);
+        TextView logOutText = (TextView) avatarLayout.findViewById(R.id.logout_text);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Account");
+        builder.setView(avatarLayout);
+
+        logOutText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonMethods.signOut();
+                Intent openSignInPage = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(openSignInPage);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     /**
