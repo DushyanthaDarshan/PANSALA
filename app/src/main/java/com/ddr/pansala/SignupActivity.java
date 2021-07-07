@@ -136,10 +136,10 @@ public class SignupActivity extends AppCompatActivity {
                                     reference.child(key).setValue(userRole, new DatabaseReference.CompletionListener() {
                                         @Override
                                         public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
+                                            CommonMethods.clearSession(getApplicationContext());
+                                            CommonMethods.saveSession(getApplicationContext(), userRole);
                                             Intent restartActivity = new Intent(getApplicationContext(), SuperAdminHomePage.class);
                                             showSuccessDialog(restartActivity);
-//                                        Toast.makeText(SignupActivity.this, "user home page", Toast.LENGTH_LONG).show();
-                                            //                            startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                         }
                                     });
                                 } else {

@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseUser currentUser = auth.getCurrentUser();
         if(currentUser != null){
             CommonMethods.clearSession(getApplicationContext());
@@ -122,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+        } else {
+            progressBar.setVisibility(View.GONE);
         }
     }
 
