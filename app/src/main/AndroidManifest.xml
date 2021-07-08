@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pansala">
-        <activity android:name=".SuperAdminTemplePage"></activity>
+        <activity android:name=".SAdminTempleAdd"></activity>
+        <activity android:name=".SuperAdminTemplePage" />
         <activity android:name=".SuperAdminHomePage" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity">

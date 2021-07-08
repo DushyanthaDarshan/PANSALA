@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SAdminTempleAdd"
+    android:background="@drawable/muragala_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/s_admin_temple_add_hi_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ayubowan Dushyantha"
+                android:gravity="left"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_weight="0.9"
+                tools:ignore="RtlHardcoded" />
+
+            <ImageView
+                android:id="@+id/s_admin_temple_add_avatar"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:foregroundGravity="center"
+                android:layout_weight="0.1"
+                android:src="@drawable/person_t"
+                tools:ignore="RtlHardcoded"
+                android:contentDescription="avatar" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
