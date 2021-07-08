@@ -52,6 +52,14 @@ public class SuperAdminHomePage extends AppCompatActivity {
                 populateShowAvatarDialog();
             }
         });
+
+        sAdminHomeTemplesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openSuperAdminTemplePage = new Intent(getApplicationContext(), SuperAdminTemplePage.class);
+                startActivity(openSuperAdminTemplePage);
+            }
+        });
     }
 
     private void populateShowAvatarDialog() {
