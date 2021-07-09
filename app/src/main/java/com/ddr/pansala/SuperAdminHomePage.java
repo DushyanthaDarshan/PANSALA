@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class SuperAdminHomePage extends AppCompatActivity {
 
@@ -73,9 +76,36 @@ public class SuperAdminHomePage extends AppCompatActivity {
         logOutText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonMethods.signOut();
-                Intent openSignInPage = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(openSignInPage);
+                new SweetAlertDialog(SuperAdminHomePage.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Sign Out")
+                        .setContentText("Do you want to sign out from the app? ")
+                        .setConfirmText("Yes")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismiss();
+                                CommonMethods.signOut();
+                                new SweetAlertDialog(SuperAdminHomePage.this)
+                                        .setTitleText("තෙරුවන් සරණයි !")
+                                        .show();
+
+                                final Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent openSignInPage = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(openSignInPage);
+                                    }
+                                }, 1000);
+                            }
+                        })
+                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
 
