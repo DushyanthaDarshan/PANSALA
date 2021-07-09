@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        CommonMethods.clearSession(getApplicationContext());
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
                             String userId = user.getUid();
@@ -208,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateUserType(UserRole userRole, String userId) {
         if (userRole != null) {
             if (userRole.getUserId().equals(userId)) {
-                CommonMethods.saveSession(getApplicationContext(), userRole);
+                CommonMethods.saveSession(getApplicationContext(), userRole, loginPassword.getText().toString());
                 progressBar.setVisibility(View.GONE);
                 String userType = userRole.getUserType();
                 if (userType.equals("SUPER_ADMIN")) {

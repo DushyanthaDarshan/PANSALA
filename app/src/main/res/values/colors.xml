@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#F11D1D</color>
     <color name="maroon">#800000</color>
+    <color name="light_maroon">#F6CF5A</color>
     <color name="status_bar">#EAC360</color>
     <color name="yellow_background_for_login">#FBF34D</color>
     <color name="yellow_foreground_for_login">#FFC107</color>

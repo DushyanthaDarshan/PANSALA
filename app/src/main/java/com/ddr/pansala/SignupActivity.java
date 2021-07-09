@@ -44,7 +44,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private EditText registerEmail, registerPassword, registerConfirmPassword, registerName;
     private Button registerBtn;
-    private TextView alreadySignText, alreadySign, errorMessageView;
+    private TextView alreadySignText, alreadySign;
     private Boolean isNameValid, isEmailValid, isPasswordValid, isAlreadyRegistered;
     private TextInputLayout emailErrorr, passError, nameError;
     private String emailError = null;
@@ -137,7 +137,7 @@ public class SignupActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
                                             CommonMethods.clearSession(getApplicationContext());
-                                            CommonMethods.saveSession(getApplicationContext(), userRole);
+                                            CommonMethods.saveSession(getApplicationContext(), userRole, password);
                                             Intent restartActivity = new Intent(getApplicationContext(), SuperAdminHomePage.class);
                                             showSuccessDialog(restartActivity);
                                         }

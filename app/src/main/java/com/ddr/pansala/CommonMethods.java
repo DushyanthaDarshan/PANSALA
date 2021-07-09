@@ -49,13 +49,14 @@ public class CommonMethods {
 //        return user;
 //    }
 
-    protected static void saveSession(Context context, UserRole userRole) {
+    protected static void saveSession(Context context, UserRole userRole, String password) {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getString("name",null) != null) {
             clearSession(context);
         }
         prefs.edit().putString("name", userRole.getName()).apply();
         prefs.edit().putString("email", userRole.getEmail()).apply();
+        prefs.edit().putString("pw", password).apply();
         prefs.edit().putString("userId", userRole.getUserId()).apply();
         prefs.edit().putString("userType", userRole.getUserType()).apply();
         prefs.edit().putString("userStatus", userRole.getUserStatus()).apply();
@@ -74,6 +75,21 @@ public class CommonMethods {
             displayName = splitName.get(0);
         }
         return displayName;
+    }
+
+    protected static String getUserIdFromSession() {
+        return prefs.getString("userId",null);
+    }
+    protected static String getUserTypeFromSession() {
+        return prefs.getString("userType",null);
+    }
+
+    protected static String getPasswordFromSession() {
+        return prefs.getString("pw",null);
+    }
+
+    protected static String getEmailFromSession() {
+        return prefs.getString("email",null);
     }
 
     protected static void clearSession(Context context) {
