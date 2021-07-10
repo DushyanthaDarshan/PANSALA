@@ -60,7 +60,8 @@ public class SuperAdminTemplePage extends AppCompatActivity {
         sAdminTempleViewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                populateShowAvatarDialog();
+                Intent openTempleViewActivity = new Intent(getApplicationContext(), SAdminViewTemples.class);
+                startActivity(openTempleViewActivity);
             }
         });
     }
