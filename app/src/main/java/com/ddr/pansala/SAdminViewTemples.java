@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,7 @@ public class SAdminViewTemples extends AppCompatActivity {
     List<String> descriptionList = new ArrayList<>();
     List<Bitmap> templeImageList = new ArrayList<>();
     String templesJson;
+    CustomListAdapterSuperAdminViewTemples adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ public class SAdminViewTemples extends AppCompatActivity {
 
         TextView hiText = (TextView) findViewById(R.id.s_admin_temple_add_hi_text);
         ImageView avatarImage = (ImageView) findViewById(R.id.s_admin_temple_view_avatar);
+        SearchView searchView = (SearchView) findViewById(R.id.s_admin_search_temple_view);
         progressBar = (ProgressBar) findViewById(R.id.s_admin_temple_view_progressBar);
 
         String name = CommonMethods.getName();
@@ -96,10 +99,39 @@ public class SAdminViewTemples extends AppCompatActivity {
 
         FetchData fetchData = new FetchData();
         fetchData.execute();
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                Log.d("AAAAAAAAAAAAAAA", query);
+//                if(templeNamesList.contains(query)){
+//                    Log.d("BBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+//                    adapter.getFilter().filter(query);
+//                }else{
+//                    Log.d("CCCCCCCCCCCCCCCCCCCC", "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+//                    Toast.makeText(SAdminViewTemples.this, "No Match found",Toast.LENGTH_LONG).show();
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                Log.d("DDDDDDDDDDDDDDDDDD", newText);
+//                for(int i=0; i<templeNamesList.size();i++)
+//                {
+//                    String name = templeNamesList.get(i);
+//                    if(name.startsWith(newText)) {
+//                        Log.d("EEEEEEEEEEEEEEE", name);
+//                        adapter.getFilter().filter(name);
+//                    }
+//                }
+//                return false;
+//            }
+//        });
     }
 
     private void executeListView() {
-        CustomListAdapterSuperAdminViewTemples adapter = new CustomListAdapterSuperAdminViewTemples(this,
+        adapter = new CustomListAdapterSuperAdminViewTemples(this,
                 templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList, templeImageList);
         ListView listView = (ListView) findViewById(R.id.s_admin_temple_list_view);
         listView.setAdapter(adapter);
