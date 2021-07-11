@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -69,6 +70,13 @@ public class SuperAdminHomePage extends AppCompatActivity {
             public void onClick(View v) {
                 Intent openSuperAdminUsersPage = new Intent(getApplicationContext(), SAdminViewUsers.class);
                 startActivity(openSuperAdminUsersPage);
+            }
+        });
+
+        sAdminHomeNoticesLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "This feature will be coming soon...", Toast.LENGTH_LONG).show();
             }
         });
     }
