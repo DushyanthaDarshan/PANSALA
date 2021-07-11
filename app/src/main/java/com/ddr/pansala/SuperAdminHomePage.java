@@ -63,6 +63,14 @@ public class SuperAdminHomePage extends AppCompatActivity {
                 startActivity(openSuperAdminTemplePage);
             }
         });
+
+        sAdminHomeContributorsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openSuperAdminUsersPage = new Intent(getApplicationContext(), SAdminViewUsers.class);
+                startActivity(openSuperAdminUsersPage);
+            }
+        });
     }
 
     private void populateShowAvatarDialog() {
