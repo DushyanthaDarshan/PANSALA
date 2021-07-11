@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SAdminViewTemples"
+    tools:context=".SAdminViewUsers"
     android:paddingBottom="2dp"
     android:paddingLeft="2dp"
     android:background="@drawable/muragala_light"
     android:paddingRight="2dp"
     android:paddingTop="2dp">
 
-
     <TextView
-        android:id="@+id/s_admin_temple_view_hi_text"
+        android:id="@+id/s_admin_view_users_hi_text"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:text="Ayubowan Dushyantha"
@@ -24,10 +23,10 @@
         tools:ignore="RtlHardcoded" />
 
     <ImageView
-        android:id="@+id/s_admin_temple_view_avatar"
+        android:id="@+id/s_admin_view_users_avatar"
         android:layout_width="70dp"
         android:layout_height="50dp"
-        android:layout_alignRight="@+id/s_admin_temple_view_hi_text"
+        android:layout_alignRight="@+id/s_admin_view_users_hi_text"
         android:layout_gravity="end"
         android:contentDescription="avatar"
         android:foregroundGravity="center"
@@ -35,18 +34,18 @@
         tools:ignore="RtlHardcoded" />
 
     <SearchView
-        android:id="@+id/s_admin_search_temple_view"
+        android:id="@+id/s_admin_search_users_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/light_maroon"
         android:layout_marginTop="40dp"
         android:queryHint="Search Here"
         android:iconifiedByDefault="false"
-        android:layout_below="@+id/s_admin_temple_view_hi_text"
+        android:layout_below="@+id/s_admin_view_users_hi_text"
         />
 
     <ProgressBar
-        android:id="@+id/s_admin_temple_view_progressBar"
+        android:id="@+id/s_admin_view_users_progressBar"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center|bottom"
@@ -54,10 +53,10 @@
         android:visibility="gone" />
 
     <ListView
-        android:id="@+id/s_admin_temple_list_view"
+        android:id="@+id/s_admin_users_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#ad5"
         android:dividerHeight="2dp"
-        android:layout_below="@+id/s_admin_search_temple_view"/>
+        android:layout_below="@+id/s_admin_search_users_view"/>
 </RelativeLayout>

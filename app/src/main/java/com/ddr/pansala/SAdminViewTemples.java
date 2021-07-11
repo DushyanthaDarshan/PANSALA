@@ -82,7 +82,7 @@ public class SAdminViewTemples extends AppCompatActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.action_bar);
 
-        TextView hiText = (TextView) findViewById(R.id.s_admin_temple_add_hi_text);
+        TextView hiText = (TextView) findViewById(R.id.s_admin_temple_view_hi_text);
         ImageView avatarImage = (ImageView) findViewById(R.id.s_admin_temple_view_avatar);
         SearchView searchView = (SearchView) findViewById(R.id.s_admin_search_temple_view);
         progressBar = (ProgressBar) findViewById(R.id.s_admin_temple_view_progressBar);
