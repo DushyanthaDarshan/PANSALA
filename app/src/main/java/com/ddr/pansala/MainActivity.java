@@ -216,7 +216,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent openSuperAdminHomePage = new Intent(getApplicationContext(), SuperAdminHomePage.class);
                     showSuccessDialog(openSuperAdminHomePage);
                 } else if (userType.equals("ADMIN")) {
-                    Toast.makeText(getApplicationContext(), "ADMIN page will be coming soon", Toast.LENGTH_LONG).show();
+                    Intent openAdminHomePage = new Intent(getApplicationContext(), AdminHomePage.class);
+                    showSuccessDialog(openAdminHomePage);
                 } else if (userType.equals("USER")) {
                     Toast.makeText(getApplicationContext(), "USER page will be coming soon", Toast.LENGTH_LONG).show();
                 } else {

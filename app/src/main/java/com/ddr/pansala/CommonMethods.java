@@ -77,6 +77,10 @@ public class CommonMethods {
         return displayName;
     }
 
+    protected static String getFullName() {
+        return prefs.getString("name",null);
+    }
+
     protected static String getUserIdFromSession() {
         return prefs.getString("userId",null);
     }
