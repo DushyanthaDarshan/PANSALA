@@ -3,7 +3,9 @@
     <string name="app_name_sinhala">පන්සල</string>
     <string name="wiharasthana">විහාරස්ථාන</string>
     <string name="add_wiharasthana">විහාරස්ථාන එකතු කරන්න</string>
+    <string name="add_events">පිංකම් එකතු කරන්න</string>
     <string name="view_wiharasthana">විහාරස්ථාන බලන්න</string>
+    <string name="view_events">පිංකම් බලන්න</string>
     <string name="dayakayo">දායකයෝ</string>
     <string name="notice">පණිවිඩ</string>
     <string name="settings">Settings</string>

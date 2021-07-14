@@ -61,8 +61,8 @@ public class AdminHomePage extends AppCompatActivity {
         adminHomePinkamLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openSuperAdminTemplePage = new Intent(getApplicationContext(), SuperAdminTemplePage.class);
-                startActivity(openSuperAdminTemplePage);
+                Intent openAdminEventPage = new Intent(getApplicationContext(), AdminEventsPage.class);
+                startActivity(openAdminEventPage);
             }
         });
 
