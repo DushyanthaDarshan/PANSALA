@@ -9,6 +9,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ *
+ */
 public class CommonMethods {
 
     private static SharedPreferences prefs;

@@ -24,6 +24,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ *
+ */
+
 public class SuperAdminHomePage extends AppCompatActivity {
 
     private LinearLayout sAdminHomeTemplesLayout, sAdminHomeContributorsLayout, sAdminHomeNoticesLayout;

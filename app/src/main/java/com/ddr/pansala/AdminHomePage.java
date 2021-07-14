@@ -21,6 +21,10 @@ import android.widget.Toast;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ *
+ */
 public class AdminHomePage extends AppCompatActivity {
 
     private LinearLayout adminHomePinkamLayout, adminDanayaLayout, adminInformationLayout;
