@@ -1,12 +1,11 @@
 package com.ddr.pansala;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,37 +20,44 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Calendar;
+import org.jetbrains.annotations.NotNull;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AdminEventAdd extends AppCompatActivity {
 
-    private EditText eventName, description, time,
-            place, registerPassword, registerConfirmPassword;
+    private EditText eventNameFromXml, descriptionFromXml, timeFromXml,
+            placeFromXml;
     private Button registerEventBtn, datePickerBtn;
     private ImageView admin_event_add_avatar;
-    private TextView date;
-    private Boolean isTempleNameValid, isEmailValid, isPasswordValid, isAlreadyRegistered, isWiharadhipathiHimiNameValid,
-            isTelNoValid, isAddressValid;
-    private TextInputLayout dateError, pwError, confirmPwError, eventNameError, descriptionError, timeError, placeError;
+    private TextView dateTextView;
+    private Boolean isEventNameValid, isDescriptionValid, isPlaceValid, isAlreadyRegistered, isDateValid,
+            isTimeValid;
+    private TextInputLayout dateError, eventNameError, descriptionError, timeError, placeError;
     private LinearLayout dateLayout;
-    private String emailErrorMessage = null;
-    private String passwordErrorMessage = null;
-    private String templeNameErrorMessage = null;
-    private String wiharadhipathiErrorMessage = null;
-    private String telephoneNoErrorMessage = null;
-    private String addressErrorMessage = null;
+    private String eventNameErrorMessage = null;
+    private String placeErrorMessage = null;
+    private String timeErrorMessage = null;
+    private String descriptionErrorMessage = null;
+    private String dateErrorMessage = null;
+    private String convertedDate;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private FirebaseDatabase rootNode;
-    private DatabaseReference userReference;
+    private DatabaseReference eventReference;
     private DatabaseReference templeReference;
 
     @Override
@@ -69,21 +75,19 @@ public class AdminEventAdd extends AppCompatActivity {
 
         admin_event_add_avatar = (ImageView) findViewById(R.id.admin_event_add_avatar);
         eventNameError = (TextInputLayout) findViewById(R.id.register_event_name_error);
-        eventName = (EditText) findViewById(R.id.register_event_name);
+        eventNameFromXml = (EditText) findViewById(R.id.register_event_name);
         descriptionError = (TextInputLayout) findViewById(R.id.register_event_description_error);
-        description = (EditText) findViewById(R.id.register_event_description);
+        descriptionFromXml = (EditText) findViewById(R.id.register_event_description);
         timeError = (TextInputLayout) findViewById(R.id.register_event_time_error);
-        time = (EditText) findViewById(R.id.register_event_time);
+        timeFromXml = (EditText) findViewById(R.id.register_event_time);
         placeError = (TextInputLayout) findViewById(R.id.register_event_place_error);
-        place = (EditText) findViewById(R.id.register_event_place);
+        placeFromXml = (EditText) findViewById(R.id.register_event_place);
         dateError = (TextInputLayout) findViewById(R.id.register_event_date_error);
-        date = (TextView) findViewById(R.id.register_event_date);
+        dateTextView = (TextView) findViewById(R.id.register_event_date);
         registerEventBtn = (Button) findViewById(R.id.register_event_btn);
         progressBar = (ProgressBar) findViewById(R.id.templeRegisterProgressBar);
         dateLayout = (LinearLayout) findViewById(R.id.admin_date_picker_layout);
         datePickerBtn = (Button) findViewById(R.id.date_picker_btn);
-
-        long unixTime = System.currentTimeMillis() / 1000L;
 
         datePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +99,7 @@ public class AdminEventAdd extends AppCompatActivity {
         registerEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                validateInputs();
             }
         });
 
@@ -104,6 +109,158 @@ public class AdminEventAdd extends AppCompatActivity {
                 populateShowAvatarDialog();
             }
         });
+    }
+
+    private void validateInputs() {
+        // Check for a valid event name
+        String eventName = eventNameFromXml.getText().toString();
+        if (eventName.isEmpty()) {
+            eventNameErrorMessage = "Event name should not be empty";
+            eventNameError.setError(eventNameErrorMessage);
+            isEventNameValid = false;
+        } else {
+            isEventNameValid = true;
+            eventNameError.setErrorEnabled(false);
+        }
+        // Check for a valid description
+        String description = descriptionFromXml.getText().toString();
+        if (description.isEmpty()) {
+            descriptionErrorMessage = "Description should not be empty";
+            descriptionError.setError(descriptionErrorMessage);
+            isDescriptionValid = false;
+        } else {
+            isDescriptionValid = true;
+            descriptionError.setErrorEnabled(false);
+        }
+        // Check for a valid date
+        if (convertedDate.isEmpty()) {
+            dateErrorMessage = "Date should not be empty";
+            dateError.setError(dateErrorMessage);
+            isDateValid = false;
+        } else {
+            isDateValid = true;
+            dateError.setErrorEnabled(false);
+        }
+        // Check for a valid time
+        String time = timeFromXml.getText().toString();
+        if (time.isEmpty()) {
+            timeErrorMessage = "Time should not be empty";
+            timeError.setError(timeErrorMessage);
+            isTimeValid = false;
+        } else {
+            isTimeValid = true;
+            timeError.setErrorEnabled(false);
+        }
+        // Check for a valid place
+        String place = placeFromXml.getText().toString();
+        if (place.isEmpty()) {
+            placeErrorMessage = "Place should not be empty";
+            placeError.setError(placeErrorMessage);
+            isPlaceValid = false;
+        } else {
+            isPlaceValid = true;
+            placeError.setErrorEnabled(false);
+        }
+
+        if (isEventNameValid && isPlaceValid && isDateValid && isDescriptionValid && isTimeValid) {
+            firebaseProcess(eventName, description, convertedDate, time, place);
+        } else {
+//                    alreadySignText.setTextSize(13l);
+//                    alreadySign.setTextSize(13l);
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private void firebaseProcess(String eventName, String description, String date, String time, String place) {
+        progressBar.setVisibility(View.VISIBLE);
+        isAlreadyRegistered = false;
+
+        rootNode = FirebaseDatabase.getInstance();
+        eventReference = rootNode.getReference("EVENT");
+
+        eventReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
+                        Event event = dataSnapshot.getValue(Event.class);
+                        if (event != null) {
+                            if (event.getEventName().equals(eventName) && event.getEventDate().equals(date) &&
+                                    event.getEventTime().equals(time)) {
+                                isAlreadyRegistered = true;
+                            }
+                        }
+                    }
+
+                    if (!isAlreadyRegistered) {
+                        FirebaseUser user = auth.getCurrentUser();
+                        String key = eventReference.push().getKey();
+                        long unixTime = System.currentTimeMillis() / 1000L;
+
+                        Event event = new Event(user.getUid(), key, eventName, description, date,
+                                time, place, user.getUid(), unixTime);
+                        eventReference.child(key).setValue(event, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
+//                                CommonMethods.clearSession(getApplicationContext());
+//                                CommonMethods.saveSession(getApplicationContext(), event, password);
+                                showSuccessDialog();
+                            }
+                        });
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        showErrorDialog("The event is already added");
+                    }
+                } else {
+                    showErrorDialog("Internal server error");
+                }
+            }
+        });
+    }
+
+    private void showSuccessDialog() {
+        clearAllEditFields();
+        new SweetAlertDialog(
+                this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Great!")
+                .setContentText("Event successfully added.")
+                .setConfirmText("Continue")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog
+                                .dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void clearAllEditFields() {
+        eventNameFromXml.getText().clear();
+        eventNameError.setErrorEnabled(false);
+        descriptionFromXml.getText().clear();
+        descriptionError.setErrorEnabled(false);
+        dateTextView.setText("");
+        dateError.setErrorEnabled(false);
+        timeFromXml.getText().clear();
+        timeError.setErrorEnabled(false);
+        placeFromXml.getText().clear();
+        placeError.setErrorEnabled(false);
+    }
+
+    private void showErrorDialog(String errorMessage) {
+        new SweetAlertDialog(AdminEventAdd.this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText(errorMessage)
+                .setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismiss();
+                    }
+                })
+                .show();
+        progressBar.setVisibility(View.GONE);
     }
 
     private void populateShowAvatarDialog() {
@@ -171,7 +328,8 @@ public class AdminEventAdd extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 DatePicker datePicker = (DatePicker) dateLayout.findViewById(R.id.datePicker);
-                date.setText(datePicker.getYear() + "-" + datePicker.getMonth() + "-" + datePicker.getDayOfMonth());
+                convertedDate = datePicker.getYear() + "-" + datePicker.getMonth() + "-" + datePicker.getDayOfMonth();
+                dateTextView.setText(convertedDate);
             }
         });
         AlertDialog dialog = builder.create();
