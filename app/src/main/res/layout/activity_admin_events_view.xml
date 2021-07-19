@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminEventsView"
+    android:paddingBottom="2dp"
+    android:paddingLeft="2dp"
+    android:background="@drawable/muragala_light"
+    android:paddingRight="2dp"
+    android:paddingTop="2dp">
+
+
+    <TextView
+        android:id="@+id/admin_events_view_hi_text"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="@string/admin_hi_text"
+        android:gravity="left"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        tools:ignore="RtlHardcoded" />
+
+    <ImageView
+        android:id="@+id/admin_events_view_avatar"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_alignRight="@+id/admin_events_view_hi_text"
+        android:layout_gravity="end"
+        android:contentDescription="avatar"
+        android:foregroundGravity="center"
+        android:src="@drawable/person_t"
+        tools:ignore="RtlHardcoded" />
+
+<!--    <SearchView-->
+<!--        android:id="@+id/admin_search_temple_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/light_maroon"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:queryHint="Search Here"-->
+<!--        android:iconifiedByDefault="false"-->
+<!--        android:layout_below="@+id/admin_events_view_hi_text"-->
+<!--        />-->
+
+    <ProgressBar
+        android:id="@+id/admin_events_view_progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/admin_events_list_view"
+        android:layout_width="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_height="match_parent"
+        android:divider="#ad5"
+        android:dividerHeight="2dp"
+        android:layout_below="@+id/admin_events_view_hi_text"/>
+</RelativeLayout>

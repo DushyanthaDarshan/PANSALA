@@ -48,16 +48,16 @@ public class AdminEventsPage extends AppCompatActivity {
         adminEventAddLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openTempleAddActivity = new Intent(getApplicationContext(), AdminEventAdd.class);
-                startActivity(openTempleAddActivity);
+                Intent openEventAddActivity = new Intent(getApplicationContext(), AdminEventAdd.class);
+                startActivity(openEventAddActivity);
             }
         });
 
         adminEventViewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openTempleViewActivity = new Intent(getApplicationContext(), SAdminViewTemples.class);
-                startActivity(openTempleViewActivity);
+                Intent openEventViewActivity = new Intent(getApplicationContext(), AdminEventsView.class);
+                startActivity(openEventViewActivity);
             }
         });
     }
