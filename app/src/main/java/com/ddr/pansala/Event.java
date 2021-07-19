@@ -9,6 +9,7 @@ public class Event {
     private String eventDate;
     private String eventTime;
     private String eventPlace;
+    private String imageId;
 
     private String eventStatus;
     private String createdBy;
@@ -20,7 +21,7 @@ public class Event {
     }
 
     public Event(String userId, String eventId, String eventName, String eventDescription, String eventDate,
-                 String eventTime, String eventPlace, String createdBy, Long createdTimestamp) {
+                 String eventTime, String eventPlace, String imageId, String createdBy, Long createdTimestamp) {
         this.userId = userId;
         this.eventId = eventId;
         this.eventName = eventName;
@@ -28,6 +29,7 @@ public class Event {
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.eventPlace = eventPlace;
+        this.imageId = imageId;
         this.eventStatus = "ACTIVE";
         this.createdBy = createdBy;
         this.createdTimestamp = createdTimestamp;
@@ -129,6 +131,14 @@ public class Event {
         this.updatedTimestamp = updatedTimestamp;
     }
 
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -139,6 +149,7 @@ public class Event {
                 ", eventDate='" + eventDate + '\'' +
                 ", eventTime='" + eventTime + '\'' +
                 ", eventPlace='" + eventPlace + '\'' +
+                ", imageId='" + imageId + '\'' +
                 ", eventStatus='" + eventStatus + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", createdTimestamp=" + createdTimestamp +

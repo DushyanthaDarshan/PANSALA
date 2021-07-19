@@ -6,12 +6,17 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
@@ -32,8 +39,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.util.UUID;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -41,8 +55,8 @@ public class AdminEventAdd extends AppCompatActivity {
 
     private EditText eventNameFromXml, descriptionFromXml, timeFromXml,
             placeFromXml;
-    private Button registerEventBtn, datePickerBtn;
-    private ImageView admin_event_add_avatar;
+    private Button registerEventBtn, datePickerBtn, imageSelectBtn;
+    private ImageView admin_event_add_avatar, selectedImageView;
     private TextView dateTextView;
     private Boolean isEventNameValid, isDescriptionValid, isPlaceValid, isAlreadyRegistered, isDateValid,
             isTimeValid;
@@ -58,6 +72,10 @@ public class AdminEventAdd extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseDatabase rootNode;
     private DatabaseReference eventReference;
+    private Uri filePath;
+    private final int PICK_IMAGE_REQUEST = 22;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
     private DatabaseReference templeReference;
 
     @Override
@@ -88,6 +106,19 @@ public class AdminEventAdd extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.templeRegisterProgressBar);
         dateLayout = (LinearLayout) findViewById(R.id.admin_date_picker_layout);
         datePickerBtn = (Button) findViewById(R.id.date_picker_btn);
+        imageSelectBtn = (Button) findViewById(R.id.image_picker_btn);
+        selectedImageView = (ImageView) findViewById(R.id.admin_event_add_post_image);
+
+        // get the Firebase  storage reference
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        imageSelectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SelectImage();
+            }
+        });
 
         datePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +140,40 @@ public class AdminEventAdd extends AppCompatActivity {
                 populateShowAvatarDialog();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // checking request code and result code
+        // if request code is PICK_IMAGE_REQUEST and
+        // resultCode is RESULT_OK
+        // then set image in the image view
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            // Get the Uri of data
+            filePath = data.getData();
+            try {
+                // Setting image on image view using Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                selectedImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                // Log the exception
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void SelectImage() {
+        // Defining Implicit Intent to mobile gallery
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(
+                Intent.createChooser(
+                        intent,
+                        "Select Image from here..."),
+                PICK_IMAGE_REQUEST);
     }
 
     private void validateInputs() {
@@ -196,15 +261,17 @@ public class AdminEventAdd extends AppCompatActivity {
                         FirebaseUser user = auth.getCurrentUser();
                         String key = eventReference.push().getKey();
                         long unixTime = System.currentTimeMillis() / 1000L;
+                        String imageId = UUID.randomUUID().toString();
+                        uploadImage(imageId);
 
                         Event event = new Event(user.getUid(), key, eventName, description, date,
-                                time, place, user.getUid(), unixTime);
+                                time, place, imageId, user.getUid(), unixTime);
                         eventReference.child(key).setValue(event, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
 //                                CommonMethods.clearSession(getApplicationContext());
 //                                CommonMethods.saveSession(getApplicationContext(), event, password);
-                                showSuccessDialog();
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
                     } else {
@@ -216,6 +283,46 @@ public class AdminEventAdd extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // UploadImage method
+    private void uploadImage(String imageId) {
+        if (filePath != null) {
+            // Code for showing progressDialog while uploading
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            // Defining the child of storageReference
+            StorageReference ref = storageReference.child("EVENT_IMAGE/" + imageId);
+
+            // adding listeners on upload
+            // or failure of image
+            ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // Image uploaded successfully
+                    // Dismiss dialog
+                    progressDialog.dismiss();
+                    showSuccessDialog();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Error, Image not uploaded
+                    progressDialog.dismiss();
+                    showErrorDialog("Failed " + e.getMessage());
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    // Progress Listener for loading
+                    // percentage on the dialog box
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        progressDialog.setMessage("Uploaded " + (int)progress + "%");
+                    }
+                });
+        }
     }
 
     private void showSuccessDialog() {
@@ -246,6 +353,7 @@ public class AdminEventAdd extends AppCompatActivity {
         timeError.setErrorEnabled(false);
         placeFromXml.getText().clear();
         placeError.setErrorEnabled(false);
+        selectedImageView.setVisibility(View.GONE);
     }
 
     private void showErrorDialog(String errorMessage) {
