@@ -104,9 +104,6 @@ public class AdminEventsView extends AppCompatActivity {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         sDialog.dismiss();
-                        finish();
-                        Intent restartActivity = new Intent(getApplicationContext(), SignupActivity.class);
-                        startActivity(restartActivity);
                     }
                 })
                 .show();

@@ -73,7 +73,8 @@ public class UserHomePage extends AppCompatActivity {
         userHomeTempleSearchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "This feature will be coming soon...", Toast.LENGTH_LONG).show();
+                Intent openUserSearchTemplePage = new Intent(getApplicationContext(), UserSearchTemple.class);
+                startActivity(openUserSearchTemplePage);
             }
         });
     }

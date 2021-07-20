@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pansala">
-        <activity android:name=".UserHomePage"></activity>
+        <activity android:name=".UserSearchTemple"></activity>
+        <activity android:name=".UserHomePage" />
         <activity android:name=".AdminEventsView" />
         <activity android:name=".AdminEventAdd" />
         <activity android:name=".AdminEventsPage" />

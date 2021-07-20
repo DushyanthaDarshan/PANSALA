@@ -1,6 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,53 +11,36 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static android.content.ContentValues.TAG;
-
-public class SAdminViewTemples extends AppCompatActivity {
+public class UserSearchTemple extends AppCompatActivity {
 
     private ProgressBar progressBar;
     List<String> templeNamesList = new ArrayList<>();
@@ -68,13 +50,20 @@ public class SAdminViewTemples extends AppCompatActivity {
     List<String> emailList = new ArrayList<>();
     List<String> descriptionList = new ArrayList<>();
     List<Bitmap> templeImageList = new ArrayList<>();
+    List<String> tempTempleNamesList = new ArrayList<>();
+    List<String> tempWiharadhipathiHimiNamesList = new ArrayList<>();
+    List<String> tempTelNoList = new ArrayList<>();
+    List<String> tempAddressList = new ArrayList<>();
+    List<String> tempEmailList = new ArrayList<>();
+    List<String> tempDescriptionList = new ArrayList<>();
+    List<Bitmap> tempTempleImageList = new ArrayList<>();
     String templesJson;
     CustomListAdapterSuperAdminViewTemples adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sadmin_view_temples);
+        setContentView(R.layout.activity_user_search_temple);
 
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#800000"));
@@ -82,10 +71,11 @@ public class SAdminViewTemples extends AppCompatActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.action_bar);
 
-        TextView hiText = (TextView) findViewById(R.id.s_admin_temple_view_hi_text);
-        ImageView avatarImage = (ImageView) findViewById(R.id.s_admin_temple_view_avatar);
-        SearchView searchView = (SearchView) findViewById(R.id.s_admin_search_temple_view);
-        progressBar = (ProgressBar) findViewById(R.id.s_admin_temple_view_progressBar);
+        TextView hiText = (TextView) findViewById(R.id.user_temple_search_hi_text);
+        ImageView avatarImage = (ImageView) findViewById(R.id.user_temple_search_avatar);
+        EditText searchView = (EditText) findViewById(R.id.user_search_temple_view);
+        Button searchBtn = (Button) findViewById(R.id.user_temple_search_btn);
+        progressBar = (ProgressBar) findViewById(R.id.user_temple_search_progressBar);
 
         String name = CommonMethods.getName();
         hiText.setText("ආයුබෝවන් " + name);
@@ -97,43 +87,52 @@ public class SAdminViewTemples extends AppCompatActivity {
             }
         });
 
-        FetchData fetchData = new FetchData();
+        FetchTempleDataForUser fetchData = new FetchTempleDataForUser();
         fetchData.execute();
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                Log.d("AAAAAAAAAAAAAAA", query);
-//                if(templeNamesList.contains(query)){
-//                    Log.d("BBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-//                    adapter.getFilter().filter(query);
-//                }else{
-//                    Log.d("CCCCCCCCCCCCCCCCCCCC", "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
-//                    Toast.makeText(SAdminViewTemples.this, "No Match found",Toast.LENGTH_LONG).show();
-//                }
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                Log.d("DDDDDDDDDDDDDDDDDD", newText);
-//                for(int i=0; i<templeNamesList.size();i++)
-//                {
-//                    String name = templeNamesList.get(i);
-//                    if(name.startsWith(newText)) {
-//                        Log.d("EEEEEEEEEEEEEEE", name);
-//                        adapter.getFilter().filter(name);
-//                    }
-//                }
-//                return false;
-//            }
-//        });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tempTempleNamesList.clear();
+                tempWiharadhipathiHimiNamesList.clear();
+                tempTelNoList.clear();
+                tempAddressList.clear();
+                tempEmailList.clear();
+                tempDescriptionList.clear();
+                tempTempleImageList.clear();
+
+                String searchText = searchView.getText().toString().trim();
+                for (int i = 0; templeNamesList.size() > i; i++) {
+                    String templeName= templeNamesList.get(i);
+                    List<String> splitNamesList = Arrays.asList(templeName.split(" "));
+                    if (splitNamesList.contains(searchText)) {
+                        tempTempleNamesList.add(templeName);
+                        tempWiharadhipathiHimiNamesList.add(wiharadhipathiHimiNamesList.get(i));
+                        tempTelNoList.add(telNoList.get(i));
+                        tempAddressList.add(addressList.get(i));
+                        tempEmailList.add(emailList.get(i));
+                        tempDescriptionList.add(descriptionList.get(i));
+                        tempTempleImageList.add(templeImageList.get(i));
+                    }
+                }
+                if (tempTempleNamesList.size() != 0) {
+                    executeListView(tempTempleNamesList, tempWiharadhipathiHimiNamesList, tempTelNoList,
+                            tempAddressList, tempEmailList, tempDescriptionList, tempTempleImageList);
+                } else {
+                    executeListView(templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList,
+                            emailList, descriptionList,templeImageList);
+                    showErrorDialog("There are no any matched temples found. Try using another word....");
+                }
+            }
+        });
     }
 
-    private void executeListView() {
+    private void executeListView(List<String> templeNamesList, List<String> wiharadhipathiHimiNamesList,
+                                 List<String> telNoList, List<String> addressList, List<String> emailList,
+                                 List<String> descriptionList, List<Bitmap> templeImageList) {
         adapter = new CustomListAdapterSuperAdminViewTemples(this,
                 templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList, templeImageList);
-        ListView listView = (ListView) findViewById(R.id.s_admin_temple_list_view);
+        ListView listView = (ListView) findViewById(R.id.user_temple_list_view);
         listView.setAdapter(adapter);
 
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -145,7 +144,7 @@ public class SAdminViewTemples extends AppCompatActivity {
     }
 
     public void showErrorDialog(String errorMessage) {
-        new SweetAlertDialog(SAdminViewTemples.this, SweetAlertDialog.ERROR_TYPE)
+        new SweetAlertDialog(UserSearchTemple.this, SweetAlertDialog.ERROR_TYPE)
                 .setTitleText("Oops...")
                 .setContentText(errorMessage)
                 .setConfirmText("OK")
@@ -170,7 +169,7 @@ public class SAdminViewTemples extends AppCompatActivity {
         logOutText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new SweetAlertDialog(SAdminViewTemples.this, SweetAlertDialog.WARNING_TYPE)
+                new SweetAlertDialog(UserSearchTemple.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Sign Out")
                         .setContentText("Do you want to sign out from the app? ")
                         .setConfirmText("Yes")
@@ -179,7 +178,7 @@ public class SAdminViewTemples extends AppCompatActivity {
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismiss();
                                 CommonMethods.signOut();
-                                new SweetAlertDialog(SAdminViewTemples.this)
+                                new SweetAlertDialog(UserSearchTemple.this)
                                         .setTitleText("තෙරුවන් සරණයි !")
                                         .show();
 
@@ -214,9 +213,9 @@ public class SAdminViewTemples extends AppCompatActivity {
         dialog.show();
     }
 
-    public class FetchData extends AsyncTask<String, Void, String> {
+    public class FetchTempleDataForUser extends AsyncTask<String, Void, String> {
 
-        ProgressDialog progress = new ProgressDialog(SAdminViewTemples.this);
+        ProgressDialog progress = new ProgressDialog(UserSearchTemple.this);
 
         @Override
         protected void onPreExecute() {
@@ -253,7 +252,7 @@ public class SAdminViewTemples extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            executeListView();
+            executeListView(templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList,templeImageList);
             progress.dismiss();
         }
 
