@@ -138,8 +138,8 @@ public class SignupActivity extends AppCompatActivity {
                                         public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
                                             CommonMethods.clearSession(getApplicationContext());
                                             CommonMethods.saveSession(getApplicationContext(), userRole, password);
-                                            Intent restartActivity = new Intent(getApplicationContext(), SuperAdminHomePage.class);
-                                            showSuccessDialog(restartActivity);
+                                            Intent openActivity = new Intent(getApplicationContext(), UserHomePage.class);
+                                            showSuccessDialog(openActivity);
                                         }
                                     });
                                 } else {

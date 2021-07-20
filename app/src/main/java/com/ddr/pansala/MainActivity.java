@@ -219,7 +219,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent openAdminHomePage = new Intent(getApplicationContext(), AdminHomePage.class);
                     showSuccessDialog(openAdminHomePage);
                 } else if (userType.equals("USER")) {
-                    Toast.makeText(getApplicationContext(), "USER page will be coming soon", Toast.LENGTH_LONG).show();
+                    Intent openUserHomePage = new Intent(getApplicationContext(), UserHomePage.class);
+                    showSuccessDialog(openUserHomePage);
                 } else {
                     Toast.makeText(getApplicationContext(), "You are a not registered user", Toast.LENGTH_LONG).show();
                 }
