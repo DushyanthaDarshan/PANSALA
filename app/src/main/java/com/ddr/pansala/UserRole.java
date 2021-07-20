@@ -11,6 +11,7 @@ public class UserRole implements Serializable {
     private String name;
     private String email;
     private String userType;
+    private String preferenceTempleId;
 
     private String userStatus;
     private String createdBy;
@@ -106,6 +107,14 @@ public class UserRole implements Serializable {
         this.userStatus = userStatus;
     }
 
+    public String getPreferenceTempleId() {
+        return preferenceTempleId;
+    }
+
+    public void setPreferenceTempleId(String preferenceTempleId) {
+        this.preferenceTempleId = preferenceTempleId;
+    }
+
     @Override
     public String toString() {
         return "UserRole{" +
@@ -113,6 +122,7 @@ public class UserRole implements Serializable {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", userType='" + userType + '\'' +
+                ", preferenceTempleId='" + preferenceTempleId + '\'' +
                 ", userStatus='" + userStatus + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", createdTimestamp=" + createdTimestamp +
