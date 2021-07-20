@@ -76,7 +76,6 @@ public class AdminEventAdd extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 22;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-    private DatabaseReference templeReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +156,7 @@ public class AdminEventAdd extends AppCompatActivity {
                 // Setting image on image view using Bitmap
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 selectedImageView.setImageBitmap(bitmap);
+                selectedImageView.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 // Log the exception
                 e.printStackTrace();
