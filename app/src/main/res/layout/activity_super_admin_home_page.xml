@@ -22,7 +22,7 @@
                 android:id="@+id/s_admin_home_hi_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ayubowan Dushyantha"
+                android:text=""
                 android:gravity="left"
                 android:textColor="@color/black"
                 android:textStyle="bold"
