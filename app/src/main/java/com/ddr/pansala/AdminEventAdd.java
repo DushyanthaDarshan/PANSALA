@@ -436,7 +436,7 @@ public class AdminEventAdd extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 DatePicker datePicker = (DatePicker) dateLayout.findViewById(R.id.datePicker);
-                convertedDate = datePicker.getYear() + "-" + datePicker.getMonth() + "-" + datePicker.getDayOfMonth();
+                convertedDate = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth();
                 dateTextView.setText(convertedDate);
             }
         });

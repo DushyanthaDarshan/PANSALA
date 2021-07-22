@@ -17,13 +17,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class UserHomePage extends AppCompatActivity {
 
-    private LinearLayout userHomeTemplesLayout, userHomeContributorsLayout, userHomeTempleSearchLayout;
+    private LinearLayout userHomeTemplesLayout, userHomeEventsLayout, userHomeTempleSearchLayout;
     private TextView userHomeHiText;
     private ImageView userHomeAvatar;
 
@@ -39,7 +38,7 @@ public class UserHomePage extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.action_bar);
 
         userHomeTemplesLayout = (LinearLayout) findViewById(R.id.user_home_temple_layout);
-        userHomeContributorsLayout = (LinearLayout) findViewById(R.id.user_home_events_layout);
+        userHomeEventsLayout = (LinearLayout) findViewById(R.id.user_home_events_layout);
         userHomeTempleSearchLayout = (LinearLayout) findViewById(R.id.user_home_temple_search);
         userHomeHiText = (TextView) findViewById(R.id.user_home_hi_text);
         userHomeAvatar = (ImageView) findViewById(R.id.user_home_avatar);
@@ -62,11 +61,11 @@ public class UserHomePage extends AppCompatActivity {
             }
         });
 
-        userHomeContributorsLayout.setOnClickListener(new View.OnClickListener() {
+        userHomeEventsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openSuperAdminUsersPage = new Intent(getApplicationContext(), SAdminViewUsers.class);
-                startActivity(openSuperAdminUsersPage);
+                Intent openUserEventPage = new Intent(getApplicationContext(), UserEventCalendar.class);
+                startActivity(openUserEventPage);
             }
         });
 

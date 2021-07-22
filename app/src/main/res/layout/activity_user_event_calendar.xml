@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserEventCalendar"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/user_calendar_hi_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/user_calendar_hi_text"
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:layout_height="wrap_content"
+            android:text="Ayubowan Dushyantha"
+            android:gravity="left"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            tools:ignore="RtlHardcoded" />
+
+        <ImageView
+            android:id="@+id/user_calendar_avatar"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_alignRight="@+id/user_temple_search_hi_text"
+            android:layout_gravity="end"
+            android:contentDescription="avatar"
+            android:foregroundGravity="center"
+            android:src="@drawable/person_t"
+            tools:ignore="RtlHardcoded" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_calendar_hi_layout">
+
+        <com.applandeo.materialcalendarview.CalendarView
+            android:id="@+id/user_calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/user_calendar_progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
+
+</RelativeLayout>
