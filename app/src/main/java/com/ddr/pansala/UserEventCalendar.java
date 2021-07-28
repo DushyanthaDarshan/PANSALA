@@ -5,11 +5,18 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -20,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,14 +59,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class UserEventCalendar extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -74,6 +87,8 @@ public class UserEventCalendar extends AppCompatActivity {
     private String userPreferenceTempleId;
     private List<Event> eventsList = new ArrayList<>();
     private List<EventDay> events = new ArrayList<>();
+    public static final String NOTIFICATION_CHANNEL_ID = "my_channel_01";
+    private final static String default_notification_channel_id = "default";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -106,43 +121,42 @@ public class UserEventCalendar extends AppCompatActivity {
         firebaseProcess(calendarView);
     }
 
-
-    public class MyEventDay extends EventDay implements Parcelable {
-
-        private String mNote;
-
-        public MyEventDay(Calendar day, String note) {
-            super(day);
-            mNote = note;
-        }
-        public String getNote() {
-            return mNote;
-        }
-        private MyEventDay(Parcel in) {
-            super((Calendar) in.readSerializable(), in.readInt());
-            mNote = in.readString();
-        }
-
-        public final Creator<MyEventDay> CREATOR = new Creator<MyEventDay>() {
-            @Override
-            public MyEventDay createFromParcel(Parcel in) {
-                return new MyEventDay(in);
-            }
-            @Override
-            public MyEventDay[] newArray(int size) {
-                return new MyEventDay[size];
-            }
-        };
-        @Override
-        public void writeToParcel(Parcel parcel, int i) {
-            parcel.writeSerializable(getCalendar());
-            parcel.writeString(mNote);
-        }
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-    }
+//    public class MyEventDay extends EventDay implements Parcelable {
+//
+//        private String mNote;
+//
+//        public MyEventDay(Calendar day, String note) {
+//            super(day);
+//            mNote = note;
+//        }
+//        public String getNote() {
+//            return mNote;
+//        }
+//        private MyEventDay(Parcel in) {
+//            super((Calendar) in.readSerializable(), in.readInt());
+//            mNote = in.readString();
+//        }
+//
+//        public final Creator<MyEventDay> CREATOR = new Creator<MyEventDay>() {
+//            @Override
+//            public MyEventDay createFromParcel(Parcel in) {
+//                return new MyEventDay(in);
+//            }
+//            @Override
+//            public MyEventDay[] newArray(int size) {
+//                return new MyEventDay[size];
+//            }
+//        };
+//        @Override
+//        public void writeToParcel(Parcel parcel, int i) {
+//            parcel.writeSerializable(getCalendar());
+//            parcel.writeString(mNote);
+//        }
+//        @Override
+//        public int describeContents() {
+//            return 0;
+//        }
+//    }
 
     private void populateShowAvatarDialog() {
         final View avatarLayout = getLayoutInflater().inflate(R.layout.avatar_dialog, null);
@@ -243,6 +257,33 @@ public class UserEventCalendar extends AppCompatActivity {
                                                 calendars.add(calendar);
                                                 EventDay eventDay = new EventDay(calendar, R.drawable.alms_giving, R.color.maroon);
                                                 events.add(eventDay);
+                                                eventsList.add(eventFromFirebase);
+
+                                                //check event is already added to the file or not. if not update file and added to the set notifications
+                                                SharedPreferences sharedPreferences =
+                                                        getSharedPreferences("Event_id_list_file",MODE_PRIVATE);
+                                                String eventIdListFromFile = sharedPreferences.getString("eventId", null);
+                                                int number = sharedPreferences.getInt("notificationId", 0);
+                                                String myDate = splitDate.get(0) + "/" + splitDate.get(1) + "/" +
+                                                        splitDate.get(2) + " 00:00:00";
+                                                if (eventIdListFromFile != null) {
+                                                    List<String> splitEventIdList = Arrays.asList(eventIdListFromFile.split(","));
+                                                    if (!splitEventIdList.contains(eventFromFirebase.getEventId())) {
+                                                        number++;
+                                                        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                                                        eventIdListFromFile = eventIdListFromFile + "," + eventFromFirebase.getEventId();
+                                                        myEdit.putString("eventId", eventIdListFromFile);
+                                                        myEdit.putInt("notificationId", number);
+                                                        myEdit.commit();
+                                                        populateNotificationsFromFirebase(myDate, eventFromFirebase, number);
+                                                    }
+                                                } else {
+                                                    SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                                                    myEdit.putString("eventId", eventFromFirebase.getEventId());
+                                                    myEdit.putInt("notificationId", 1);
+                                                    myEdit.apply();
+                                                    populateNotificationsFromFirebase(myDate, eventFromFirebase, 1);
+                                                }
                                             }
                                         }
                                     }
@@ -279,6 +320,51 @@ public class UserEventCalendar extends AppCompatActivity {
             }
         });
         progressBar.setVisibility(View.GONE);
+    }
+
+    private void populateNotificationsFromFirebase(String myDate, Event event, int num) {
+        long millis = 0;
+        long currentMillis = 0;
+        long delay = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        try {
+            Date date = sdf.parse(myDate);
+            Date currentDate = new Date();
+            currentMillis = currentDate.getTime();
+            millis = date.getTime();
+            //get the gap and subtract 41 hours.
+            //41 hours means notification will be appear before 41 hours
+            delay = (millis - currentMillis) - 147600000;
+            if (delay <= 0 ) {
+                delay = 20000;
+            }
+        } catch (DateTimeException | ParseException dateTimeException) {
+            dateTimeException.getStackTrace();
+        }
+        scheduleNotification(getNotification(event.getEventName().concat("\n").concat("දිනය: ").concat(event.getEventDate())
+                .concat("\n").concat("වෙලාව: ").concat(event.getEventTime()).concat("\n").concat("ස්ථානය: ")
+                .concat(event.getEventPlace())), delay, num);
+    }
+
+    private void scheduleNotification (Notification notification, long delay, int num) {
+        Intent notificationIntent = new Intent(this, NotificationPage.class);
+        notificationIntent.putExtra("NOTIFICATION_ID", num);
+        notificationIntent.putExtra("NOTIFICATION", notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, num-1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification (String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id);
+        builder.setContentTitle("පිංකම් දැනුම්දීම");
+        builder.setContentText(content);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setAutoCancel(true);
+        builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+        return builder.build();
     }
 
     public void showErrorDialog(String errorMessage) {

@@ -56,8 +56,6 @@ public class UserHomePage extends AppCompatActivity {
         userHomeTemplesLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openSuperAdminTemplePage = new Intent(getApplicationContext(), SuperAdminTemplePage.class);
-                startActivity(openSuperAdminTemplePage);
             }
         });
 
