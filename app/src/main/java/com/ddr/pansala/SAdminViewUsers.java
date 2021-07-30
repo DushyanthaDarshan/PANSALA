@@ -16,10 +16,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -33,6 +34,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -45,6 +47,11 @@ public class SAdminViewUsers extends AppCompatActivity {
     List<String> userTypeList = new ArrayList<>();
     List<String> userStatusList = new ArrayList<>();
     List<Bitmap> usersDpList = new ArrayList<>();
+    List<String> tempUsersNamesList = new ArrayList<>();
+    List<String> tempEmailList = new ArrayList<>();
+    List<String> tempUserTypeList = new ArrayList<>();
+    List<String> tempUserStatusList = new ArrayList<>();
+    List<Bitmap> tempUsersDpList = new ArrayList<>();
     String usersJson;
     CustomListAdapterSuperAdminViewUsers adapter;
 
@@ -61,7 +68,8 @@ public class SAdminViewUsers extends AppCompatActivity {
 
         TextView hiText = (TextView) findViewById(R.id.s_admin_view_users_hi_text);
         ImageView avatarImage = (ImageView) findViewById(R.id.s_admin_view_users_avatar);
-//        SearchView searchView = (SearchView) findViewById(R.id.s_admin_search_temple_view);
+        EditText searchView = (EditText) findViewById(R.id.s_admin_search_user_view);
+        Button searchBtn = (Button) findViewById(R.id.s_admin_search_user_btn);
         progressBar = (ProgressBar) findViewById(R.id.s_admin_view_users_progressBar);
 
         String name = CommonMethods.getName();
@@ -76,6 +84,36 @@ public class SAdminViewUsers extends AppCompatActivity {
 
         FetchDataForViewUsers fetchData = new FetchDataForViewUsers();
         fetchData.execute();
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tempUsersNamesList.clear();
+                tempEmailList.clear();
+                tempUserTypeList.clear();
+                tempUserStatusList.clear();
+                tempUsersDpList.clear();
+
+                String searchText = searchView.getText().toString().trim();
+                for (int i = 0; usersNamesList.size() > i; i++) {
+                    String templeName= usersNamesList.get(i);
+                    List<String> splitNamesList = Arrays.asList(templeName.split(" "));
+                    if (splitNamesList.contains(searchText)) {
+                        tempUsersNamesList.add(templeName);
+                        tempEmailList.add(emailList.get(i));
+                        tempUserTypeList.add(userTypeList.get(i));
+                        tempUserStatusList.add(userStatusList.get(i));
+                        tempUsersDpList.add(usersDpList.get(i));
+                    }
+                }
+                if (tempUsersNamesList.size() != 0) {
+                    executeListView(tempUsersNamesList, tempEmailList, tempUserTypeList, tempUserStatusList, tempUsersDpList);
+                } else {
+                    executeListView(usersNamesList, emailList, userTypeList, userStatusList, usersDpList);
+                    showErrorDialog("There are no any matched user found. Try using another word....");
+                }
+            }
+        });
     }
 
     private void populateShowAvatarDialog() {
@@ -170,7 +208,7 @@ public class SAdminViewUsers extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            executeListView();
+            executeListView(usersNamesList, emailList, userTypeList, userStatusList, usersDpList);
             progress.dismiss();
         }
 
@@ -224,7 +262,8 @@ public class SAdminViewUsers extends AppCompatActivity {
         }
     }
 
-    private void executeListView() {
+    private void executeListView(List<String> usersNamesList, List<String> emailList, List<String> userTypeList,
+                                 List<String> userStatusList, List<Bitmap> usersDpList) {
         adapter = new CustomListAdapterSuperAdminViewUsers(this,
                 usersNamesList, emailList, userTypeList, userStatusList, usersDpList);
         ListView listView = (ListView) findViewById(R.id.s_admin_users_list_view);
