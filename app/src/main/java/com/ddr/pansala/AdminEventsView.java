@@ -19,6 +19,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -44,6 +46,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -58,6 +61,12 @@ public class AdminEventsView extends AppCompatActivity {
     List<String> timeList = new ArrayList<>();
     List<String> placeList = new ArrayList<>();
     List<Bitmap> imageList = new ArrayList<>();
+    List<String> tempEventNamesList = new ArrayList<>();
+    List<String> tempEventDescriptionList = new ArrayList<>();
+    List<String> tempDateList = new ArrayList<>();
+    List<String> tempTimeList = new ArrayList<>();
+    List<String> tempPlaceList = new ArrayList<>();
+    List<Bitmap> tempImageList = new ArrayList<>();
     String eventsJson;
     CustomListAdapterAdminViewEvents adapter;
 
@@ -74,7 +83,8 @@ public class AdminEventsView extends AppCompatActivity {
 
         TextView hiText = (TextView) findViewById(R.id.admin_events_view_hi_text);
         ImageView avatarImage = (ImageView) findViewById(R.id.admin_events_view_avatar);
-//        SearchView searchView = (SearchView) findViewById(R.id.s_admin_search_temple_view);
+        EditText searchView = (EditText) findViewById(R.id.admin_search_event_view);
+        Button searchBtn = (Button) findViewById(R.id.admin_event_search_btn);
         progressBar = (ProgressBar) findViewById(R.id.admin_events_view_progressBar);
 
         avatarImage.setOnClickListener(new View.OnClickListener() {
@@ -86,9 +96,43 @@ public class AdminEventsView extends AppCompatActivity {
 
         FetchAdminEventsViewData fetchAdminEventsViewData = new FetchAdminEventsViewData();
         fetchAdminEventsViewData.execute();
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tempEventNamesList.clear();
+                tempEventDescriptionList.clear();
+                tempDateList.clear();
+                tempTimeList.clear();
+                tempPlaceList.clear();
+                tempImageList.clear();
+
+                String searchText = searchView.getText().toString().trim();
+                for (int i = 0; eventNamesList.size() > i; i++) {
+                    String templeName= eventNamesList.get(i);
+                    List<String> splitNamesList = Arrays.asList(templeName.split(" "));
+                    if (splitNamesList.contains(searchText)) {
+                        tempEventNamesList.add(templeName);
+                        tempEventDescriptionList.add(eventDescriptionList.get(i));
+                        tempDateList.add(dateList.get(i));
+                        tempTimeList.add(timeList.get(i));
+                        tempPlaceList.add(placeList.get(i));
+                        tempImageList.add(imageList.get(i));
+                    }
+                }
+                if (tempEventNamesList.size() != 0) {
+                    executeListView(tempEventNamesList, tempEventDescriptionList, tempDateList,
+                            tempTimeList, tempPlaceList, tempImageList);
+                } else {
+                    executeListView(eventNamesList, eventDescriptionList, dateList, timeList, placeList, imageList);
+                    showErrorDialog("There are no any matched events found. Try using another word....");
+                }
+            }
+        });
     }
 
-    private void executeListView() {
+    private void executeListView(List<String> eventNamesList, List<String> eventDescriptionList, List<String> dateList,
+                                 List<String> timeList, List<String> placeList, List<Bitmap> imageList) {
         adapter = new CustomListAdapterAdminViewEvents(this, eventNamesList, eventDescriptionList,
                 dateList, timeList, placeList, imageList);
         ListView listView = (ListView) findViewById(R.id.admin_events_list_view);
@@ -224,7 +268,7 @@ public class AdminEventsView extends AppCompatActivity {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            executeListView();
+            executeListView(eventNamesList, eventDescriptionList, dateList, timeList, placeList, imageList);
             progress.dismiss();
         }
 
@@ -292,7 +336,7 @@ public class AdminEventsView extends AppCompatActivity {
                 //TODO - get all images from firebase
                 //check access token scenario
                 //for now i skip that
-                String baseUrl = "https://firebasestorage.googleapis.com/v0/b/pansala-android-project.appspot.com/o/EVENT_IMAGE%2F" + imageId + "?alt=media&token=d5ccf423-b697-437e-b429-b623eebf81c2";
+                String baseUrl = "https://firebasestorage.googleapis.com/v0/b/pansala-android-project.appspot.com/o/EVENT_IMAGE%2F" + imageId + "?alt=media";
                 URL url = new URL(baseUrl);
                 image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             } catch(Exception e) {

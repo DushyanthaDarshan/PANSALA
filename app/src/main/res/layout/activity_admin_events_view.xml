@@ -34,16 +34,37 @@
         android:src="@drawable/person_t"
         tools:ignore="RtlHardcoded" />
 
-<!--    <SearchView-->
-<!--        android:id="@+id/admin_search_temple_view"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/light_maroon"-->
-<!--        android:layout_marginTop="40dp"-->
-<!--        android:queryHint="Search Here"-->
-<!--        android:iconifiedByDefault="false"-->
-<!--        android:layout_below="@+id/admin_events_view_hi_text"-->
-<!--        />-->
+    <LinearLayout
+        android:id="@+id/admin_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/admin_search_event_view"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="40dp"
+            android:background="@color/light_maroon"
+            android:layout_marginTop="50dp"
+            android:hint="            පිංකමේ නම"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:iconifiedByDefault="false"
+            android:layout_below="@+id/admin_events_view_avatar"
+            />
+
+        <Button
+            android:id="@+id/admin_event_search_btn"
+            android:layout_width="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.8"
+            android:layout_height="40dp"
+            android:layout_below="@+id/admin_events_view_avatar"
+            android:layout_alignRight="@+id/user_search_temple_view"
+            android:layout_marginTop="50dp"
+            android:hint="සොයන්න" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/admin_events_view_progressBar"
@@ -60,5 +81,5 @@
         android:layout_height="match_parent"
         android:divider="#ad5"
         android:dividerHeight="2dp"
-        android:layout_below="@+id/admin_events_view_hi_text"/>
+        android:layout_below="@+id/admin_search_layout"/>
 </RelativeLayout>
