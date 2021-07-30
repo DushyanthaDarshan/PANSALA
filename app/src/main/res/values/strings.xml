@@ -19,4 +19,6 @@
     <string name="informations">තොරතුරු</string>
     <string name="register">එකතු කරන්න</string>
     <string name="ask_user_msg_for_temple">මෙම පන්සලේ ක්‍රියාකාරී තොරතුරු ලබා ගැනීමට කැමතිද ?</string>
+    <string name="temple_images_collection">රූප එකතුව</string>
+    <string name="wistharaya">විස්තරය</string>
 </resources>

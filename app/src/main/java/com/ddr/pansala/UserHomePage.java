@@ -56,6 +56,8 @@ public class UserHomePage extends AppCompatActivity {
         userHomeTemplesLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent openUserEventPage = new Intent(getApplicationContext(), UserTemple.class);
+                startActivity(openUserEventPage);
             }
         });
 
