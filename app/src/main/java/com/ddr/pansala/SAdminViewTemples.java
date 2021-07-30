@@ -19,6 +19,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -48,6 +50,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -68,6 +71,13 @@ public class SAdminViewTemples extends AppCompatActivity {
     List<String> emailList = new ArrayList<>();
     List<String> descriptionList = new ArrayList<>();
     List<Bitmap> templeImageList = new ArrayList<>();
+    List<String> tempTempleNamesList = new ArrayList<>();
+    List<String> tempWiharadhipathiHimiNamesList = new ArrayList<>();
+    List<String> tempTelNoList = new ArrayList<>();
+    List<String> tempAddressList = new ArrayList<>();
+    List<String> tempEmailList = new ArrayList<>();
+    List<String> tempDescriptionList = new ArrayList<>();
+    List<Bitmap> tempTempleImageList = new ArrayList<>();
     String templesJson;
     CustomListAdapterSuperAdminViewTemples adapter;
 
@@ -84,7 +94,8 @@ public class SAdminViewTemples extends AppCompatActivity {
 
         TextView hiText = (TextView) findViewById(R.id.s_admin_temple_view_hi_text);
         ImageView avatarImage = (ImageView) findViewById(R.id.s_admin_temple_view_avatar);
-        SearchView searchView = (SearchView) findViewById(R.id.s_admin_search_temple_view);
+        EditText searchView = (EditText) findViewById(R.id.s_admin_view_temple_search_view);
+        Button searchBtn = (Button) findViewById(R.id.s_admin_view_temple_search_btn);
         progressBar = (ProgressBar) findViewById(R.id.s_admin_temple_view_progressBar);
 
         String name = CommonMethods.getName();
@@ -99,49 +110,51 @@ public class SAdminViewTemples extends AppCompatActivity {
 
         FetchData fetchData = new FetchData();
         fetchData.execute();
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                Log.d("AAAAAAAAAAAAAAA", query);
-//                if(templeNamesList.contains(query)){
-//                    Log.d("BBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-//                    adapter.getFilter().filter(query);
-//                }else{
-//                    Log.d("CCCCCCCCCCCCCCCCCCCC", "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
-//                    Toast.makeText(SAdminViewTemples.this, "No Match found",Toast.LENGTH_LONG).show();
-//                }
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                Log.d("DDDDDDDDDDDDDDDDDD", newText);
-//                for(int i=0; i<templeNamesList.size();i++)
-//                {
-//                    String name = templeNamesList.get(i);
-//                    if(name.startsWith(newText)) {
-//                        Log.d("EEEEEEEEEEEEEEE", name);
-//                        adapter.getFilter().filter(name);
-//                    }
-//                }
-//                return false;
-//            }
-//        });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tempTempleNamesList.clear();
+                tempWiharadhipathiHimiNamesList.clear();
+                tempTelNoList.clear();
+                tempAddressList.clear();
+                tempEmailList.clear();
+                tempDescriptionList.clear();
+                tempTempleImageList.clear();
+
+                String searchText = searchView.getText().toString().trim();
+                for (int i = 0; templeNamesList.size() > i; i++) {
+                    String templeName= templeNamesList.get(i);
+                    List<String> splitNamesList = Arrays.asList(templeName.split(" "));
+                    if (splitNamesList.contains(searchText)) {
+                        tempTempleNamesList.add(templeName);
+                        tempWiharadhipathiHimiNamesList.add(wiharadhipathiHimiNamesList.get(i));
+                        tempTelNoList.add(telNoList.get(i));
+                        tempAddressList.add(addressList.get(i));
+                        tempEmailList.add(emailList.get(i));
+                        tempDescriptionList.add(descriptionList.get(i));
+                        tempTempleImageList.add(templeImageList.get(i));
+                    }
+                }
+                if (tempTempleNamesList.size() != 0) {
+                    executeListView(tempTempleNamesList, tempWiharadhipathiHimiNamesList, tempTelNoList,
+                            tempAddressList, tempEmailList, tempDescriptionList, tempTempleImageList);
+                } else {
+                    executeListView(templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList,
+                            emailList, descriptionList,templeImageList);
+                    showErrorDialog("There are no any matched temples found. Try using another word....");
+                }
+            }
+        });
     }
 
-    private void executeListView() {
+    private void executeListView(List<String> templeNamesList, List<String> wiharadhipathiHimiNamesList,
+                                 List<String> telNoList, List<String> addressList, List<String> emailList,
+                                 List<String> descriptionList, List<Bitmap> templeImageList) {
         adapter = new CustomListAdapterSuperAdminViewTemples(this,
                 templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList, templeImageList);
         ListView listView = (ListView) findViewById(R.id.s_admin_temple_list_view);
         listView.setAdapter(adapter);
-
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getApplicationContext(), templeNamesList.get(position), Toast.LENGTH_LONG);
-//            }
-//        });
     }
 
     public void showErrorDialog(String errorMessage) {
@@ -253,7 +266,7 @@ public class SAdminViewTemples extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            executeListView();
+            executeListView(templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList,templeImageList);
             progress.dismiss();
         }
 

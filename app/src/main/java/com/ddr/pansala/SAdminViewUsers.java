@@ -61,7 +61,7 @@ public class SAdminViewUsers extends AppCompatActivity {
 
         TextView hiText = (TextView) findViewById(R.id.s_admin_view_users_hi_text);
         ImageView avatarImage = (ImageView) findViewById(R.id.s_admin_view_users_avatar);
-        SearchView searchView = (SearchView) findViewById(R.id.s_admin_search_temple_view);
+//        SearchView searchView = (SearchView) findViewById(R.id.s_admin_search_temple_view);
         progressBar = (ProgressBar) findViewById(R.id.s_admin_view_users_progressBar);
 
         String name = CommonMethods.getName();

@@ -34,16 +34,37 @@
         android:src="@drawable/person_t"
         tools:ignore="RtlHardcoded" />
 
-    <SearchView
-        android:id="@+id/s_admin_search_temple_view"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/s_admin_view_temple_search_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_maroon"
-        android:layout_marginTop="40dp"
-        android:queryHint="මෙහි සොයන්න"
-        android:iconifiedByDefault="false"
-        android:layout_below="@+id/s_admin_temple_view_hi_text"
-        />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/s_admin_view_temple_search_view"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="40dp"
+            android:background="@color/light_maroon"
+            android:layout_marginTop="50dp"
+            android:hint=" විහාරස්ථානයේ නම"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:iconifiedByDefault="false"
+            android:layout_below="@+id/s_admin_temple_view_avatar"
+            />
+
+        <Button
+            android:id="@+id/s_admin_view_temple_search_btn"
+            android:layout_width="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.8"
+            android:layout_height="40dp"
+            android:layout_below="@+id/s_admin_temple_view_avatar"
+            android:layout_alignRight="@+id/s_admin_view_temple_search_view"
+            android:layout_marginTop="50dp"
+            android:hint="සොයන්න" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/s_admin_temple_view_progressBar"
@@ -57,9 +78,9 @@
         android:id="@+id/s_admin_temple_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:divider="#ad5"
         android:padding="5dp"
         android:dividerHeight="2dp"
-        android:layout_below="@+id/s_admin_search_temple_view"/>
+        android:layout_below="@+id/s_admin_view_temple_search_layout"/>
 </RelativeLayout>
