@@ -327,10 +327,13 @@ public class UserEventCalendar extends AppCompatActivity {
         long currentMillis = 0;
         long delay = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
         try {
             Date date = sdf.parse(myDate);
             Date currentDate = new Date();
-            currentMillis = currentDate.getTime();
+            String currentDateWithoutTimeStringFormat = sdf1.format(currentDate);
+            Date currentDateWithoutTime = sdf.parse(currentDateWithoutTimeStringFormat.concat(" 00:00:00"));
+            currentMillis = currentDateWithoutTime.getTime();
             millis = date.getTime();
             //get the gap and subtract 41 hours.
             //41 hours means notification will be appear before 41 hours
