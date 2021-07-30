@@ -52,6 +52,7 @@ public class UserTemple extends AppCompatActivity {
     private List<Bitmap> listOfImages;
     private ImageView image1;
     private ImageView image2;
+    private ImageView image3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class UserTemple extends AppCompatActivity {
         ImageView avatarImage = (ImageView) findViewById(R.id.user_temple_avatar);
         image1 = (ImageView) findViewById(R.id.user_temple_image_1);
         image2 = (ImageView) findViewById(R.id.user_temple_image_2);
+        image3 = (ImageView) findViewById(R.id.user_temple_image_3);
         progressBar = (ProgressBar) findViewById(R.id.user_temple_progressBar);
         descriptionTextView = (TextView) findViewById(R.id.user_temple_wistharaya);
         auth = FirebaseAuth.getInstance();
@@ -184,15 +186,23 @@ public class UserTemple extends AppCompatActivity {
         Bitmap commonTempleImage = BitmapFactory.decodeResource(getResources(), R.drawable.common_temple);
 
         image2.setVisibility(View.VISIBLE);
-        if (listOfImages.size() == 2) {
+        image3.setVisibility(View.VISIBLE);
+        if (listOfImages.size() == 3) {
             image1.setImageBitmap(listOfImages.get(0));
             image2.setImageBitmap(listOfImages.get(1));
+            image3.setImageBitmap(listOfImages.get(2));
+        } else if (listOfImages.size() == 2){
+            image1.setImageBitmap(listOfImages.get(0));
+            image2.setImageBitmap(listOfImages.get(1));
+            image3.setVisibility(View.INVISIBLE);
         } else if (listOfImages.size() == 1){
             image1.setImageBitmap(listOfImages.get(0));
             image2.setVisibility(View.INVISIBLE);
+            image3.setVisibility(View.INVISIBLE);
         } else if (listOfImages.size() == 0){
             image1.setImageBitmap(Bitmap.createScaledBitmap(commonTempleImage, 500, 500, true));
             image2.setVisibility(View.INVISIBLE);
+            image3.setVisibility(View.INVISIBLE);
         }
         progressBar.setVisibility(View.GONE);
     }
