@@ -7,8 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -27,6 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class UserTemple extends AppCompatActivity {
@@ -35,11 +43,15 @@ public class UserTemple extends AppCompatActivity {
     private FirebaseDatabase rootNode;
     private DatabaseReference userReference;
     private DatabaseReference templeReference;
+    private DatabaseReference imageReference;
     private Boolean isSelected;
     private FirebaseAuth auth;
     private String userPreferenceTempleId;
     private Temple temple;
     private TextView descriptionTextView;
+    private List<Bitmap> listOfImages;
+    private ImageView image1;
+    private ImageView image2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +66,8 @@ public class UserTemple extends AppCompatActivity {
 
         TextView hiText = (TextView) findViewById(R.id.user_temple_hi_text);
         ImageView avatarImage = (ImageView) findViewById(R.id.user_temple_avatar);
-        ImageView image1 = (ImageView) findViewById(R.id.user_temple_image_1);
-        ImageView image2 = (ImageView) findViewById(R.id.user_temple_image_2);
+        image1 = (ImageView) findViewById(R.id.user_temple_image_1);
+        image2 = (ImageView) findViewById(R.id.user_temple_image_2);
         progressBar = (ProgressBar) findViewById(R.id.user_temple_progressBar);
         descriptionTextView = (TextView) findViewById(R.id.user_temple_wistharaya);
         auth = FirebaseAuth.getInstance();
@@ -76,10 +88,12 @@ public class UserTemple extends AppCompatActivity {
     private void firebaseProcess() {
         progressBar.setVisibility(View.VISIBLE);
         isSelected = false;
+        listOfImages = new ArrayList<>();
         FirebaseUser user = auth.getCurrentUser();
         rootNode = FirebaseDatabase.getInstance();
         userReference = rootNode.getReference("USER");
         templeReference = rootNode.getReference("TEMPLE");
+        imageReference = rootNode.getReference("IMGS");
 
         userReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -114,7 +128,8 @@ public class UserTemple extends AppCompatActivity {
                                                         "\u2022" + " වැඩිදුර තොරතුරු: " + ((templeFromFirebase.getTempleDescription() == null)
                                                         ? "-" : templeFromFirebase.getTempleDescription());
                                                 descriptionTextView.setText(description);
-                                                progressBar.setVisibility(View.GONE);
+
+                                                populateImagesFromFirebase(templeFromFirebase);
                                             }
                                         }
                                     }
@@ -130,6 +145,85 @@ public class UserTemple extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void populateImagesFromFirebase(Temple templeFromFirebase) {
+        List<String> imageIdList = new ArrayList<>();
+        imageReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
+                        Img imgFromFirebase = dataSnapshot.getValue(Img.class);
+                        if (imgFromFirebase != null) {
+                            if (templeFromFirebase.getUserId().equals(imgFromFirebase.getReferenceId())) {
+                                imageIdList.add(imgFromFirebase.getImgId());
+                            }
+                        }
+                    }
+                    populateImages(imageIdList);
+                }
+            }
+        });
+    }
+
+    private void populateImages(List<String> imageIdList) {
+        for (String imageId : imageIdList) {
+            FetchTempleImageIcons fetchEventImageIcons = new FetchTempleImageIcons();
+            try {
+                Bitmap bitmap = fetchEventImageIcons.execute(imageId).get();
+                if (bitmap != null) {
+                    listOfImages.add(Bitmap.createScaledBitmap(bitmap, 500, 500, true));
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Bitmap commonTempleImage = BitmapFactory.decodeResource(getResources(), R.drawable.common_temple);
+
+        image2.setVisibility(View.VISIBLE);
+        if (listOfImages.size() == 2) {
+            image1.setImageBitmap(listOfImages.get(0));
+            image2.setImageBitmap(listOfImages.get(1));
+        } else if (listOfImages.size() == 1){
+            image1.setImageBitmap(listOfImages.get(0));
+            image2.setVisibility(View.INVISIBLE);
+        } else if (listOfImages.size() == 0){
+            image1.setImageBitmap(Bitmap.createScaledBitmap(commonTempleImage, 500, 500, true));
+            image2.setVisibility(View.INVISIBLE);
+        }
+        progressBar.setVisibility(View.GONE);
+    }
+
+    public class FetchTempleImageIcons extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap image = null;
+            try {
+                String imageId = null;
+                if (strings.length != 0) {
+                    imageId = strings[0];
+                }
+
+                //TODO - get all images from firebase
+                //check access token scenario
+                //for now i skip that
+                String baseUrl = "https://firebasestorage.googleapis.com/v0/b/pansala-android-project.appspot.com/o/TEMPLE_IMAGE%2F" + imageId + "?alt=media";
+                URL url = new URL(baseUrl);
+                image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch(Exception e) {
+                System.out.println(e);
+            }
+            return image;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+        }
     }
 
     private void showErrorDialog(String errorMessage) {
