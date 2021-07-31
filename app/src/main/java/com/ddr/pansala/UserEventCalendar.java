@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -57,7 +56,6 @@ public class UserEventCalendar extends AppCompatActivity {
     private ProgressBar progressBar;
     private CalendarView calendarView;
     private List<Calendar> calendars = new ArrayList<>();
-    String templesJson;
     private FirebaseDatabase rootNode;
     private DatabaseReference userReference;
     private DatabaseReference templeReference;
@@ -100,43 +98,6 @@ public class UserEventCalendar extends AppCompatActivity {
 
         firebaseProcess(calendarView);
     }
-
-//    public class MyEventDay extends EventDay implements Parcelable {
-//
-//        private String mNote;
-//
-//        public MyEventDay(Calendar day, String note) {
-//            super(day);
-//            mNote = note;
-//        }
-//        public String getNote() {
-//            return mNote;
-//        }
-//        private MyEventDay(Parcel in) {
-//            super((Calendar) in.readSerializable(), in.readInt());
-//            mNote = in.readString();
-//        }
-//
-//        public final Creator<MyEventDay> CREATOR = new Creator<MyEventDay>() {
-//            @Override
-//            public MyEventDay createFromParcel(Parcel in) {
-//                return new MyEventDay(in);
-//            }
-//            @Override
-//            public MyEventDay[] newArray(int size) {
-//                return new MyEventDay[size];
-//            }
-//        };
-//        @Override
-//        public void writeToParcel(Parcel parcel, int i) {
-//            parcel.writeSerializable(getCalendar());
-//            parcel.writeString(mNote);
-//        }
-//        @Override
-//        public int describeContents() {
-//            return 0;
-//        }
-//    }
 
     private void populateShowAvatarDialog() {
         final View avatarLayout = getLayoutInflater().inflate(R.layout.avatar_dialog, null);
@@ -389,98 +350,4 @@ public class UserEventCalendar extends AppCompatActivity {
                 .show();
         progressBar.setVisibility(View.GONE);
     }
-
-//    public class FetchTempleDataForUser extends AsyncTask<String, Void, String> {
-//
-//        ProgressDialog progress = new ProgressDialog(UserEventCalendar.this);
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//
-//            progress.setTitle("Loading");
-//            progress.setMessage("Wait while loading...");
-//            progress.setCancelable(false);
-//            progress.show();
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.common_temple);
-//            try {
-//                if (templesJson != null) {
-//                    JSONObject fullObject = new JSONObject(templesJson);
-//                    JSONArray keys = fullObject.names();
-//
-//                    for (int i = 0; keys.length() > i; i++) {
-//                        String key = keys.getString(i);
-//                        JSONObject temple = fullObject.getJSONObject(key);
-//                        templeIdList.add(temple.getString("userId"));
-//                        templeNamesList.add(temple.getString("templeName"));
-//                        wiharadhipathiHimiNamesList.add(temple.getString("wiharadhipathiHimi"));
-//                        addressList.add(temple.getString("templeAddress"));
-//                        telNoList.add(temple.getString("telNo"));
-//                        emailList.add(temple.getString("email"));
-//                        descriptionList.add(temple.getString("userStatus"));
-//                        templeImageList.add(Bitmap.createScaledBitmap(bitmap, 500, 500, true));
-//                    }
-//                } else {
-//                    showErrorDialog("There is a internal server error");
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            executeListView(templeIdList, templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList,templeImageList);
-//            progress.dismiss();
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... stringsArray) {
-//            HttpURLConnection urlConnection = null;
-//            BufferedReader reader = null;
-//
-//            try {
-//                final String BASE_URL = "https://pansala-android-project-default-rtdb.firebaseio.com/TEMPLE.json";
-//                URL url = new URL(BASE_URL);
-//
-//                urlConnection = (HttpURLConnection) url.openConnection();
-//                urlConnection.setRequestMethod("GET");
-//                urlConnection.connect();
-//
-//                InputStream inputStream = urlConnection.getInputStream();
-//                StringBuffer buffer = new StringBuffer();
-//
-//                if (inputStream == null) {
-//                    return null;
-//                }
-//                reader = new BufferedReader(new InputStreamReader(inputStream));
-//
-//                String line1;
-//
-//                while ((line1 = reader.readLine()) != null) {
-//                    buffer.append(line1 + "\n");
-//                }
-//                if (buffer.length() == 0) {
-//                    return null;
-//                }
-//                templesJson = buffer.toString();
-//
-//            } catch (IOException e) {
-//                Log.e("Hi", "Error", e);
-//                return null;
-//            } finally {
-//                if (urlConnection != null) {
-//                    urlConnection.disconnect();
-//                }
-//                if (reader != null) {
-//                    try {
-//                        reader.close();
-//                    } catch (final IOException e) {
-//                        Log.e("Hi", "Error closing stream", e);
-//                    }
-//                }
-//            }
-//            return templesJson;
-//        }
-//    }
 }
