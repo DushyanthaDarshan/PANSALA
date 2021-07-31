@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminAddDanaya"
+    android:background="@drawable/muragala_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/admin_danaya_add_hi_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_hi_text"
+                android:gravity="left"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_weight="0.9"
+                tools:ignore="RtlHardcoded" />
+
+            <ImageView
+                android:id="@+id/admin_danaya_add_avatar"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:foregroundGravity="center"
+                android:layout_weight="0.1"
+                android:src="@drawable/person_t"
+                tools:ignore="RtlHardcoded"
+                android:contentDescription="avatar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:text="@string/add_danaya"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="20dp"
+                android:layout_margin="5dp"
+                app:cardBackgroundColor="@color/light_maroon"
+                app:cardMaxElevation="12dp"
+                android:layout_centerVertical="true"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/register_danaya_user_name_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <EditText
+                            android:id="@+id/register_danaya_user_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="         පරිශීලක නාමය"
+                            android:backgroundTint="@color/light_maroon"
+                            android:inputType="textPersonName"
+                            android:textColor="@android:color/black"
+                            android:layout_gravity="center_vertical"
+                            android:drawableLeft="@drawable/ic_baseline_event_24"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/register_danaya_time_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <EditText
+                            android:id="@+id/register_danaya_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="         වෙලාව"
+                            android:inputType="textPersonName"
+                            android:backgroundTint="@color/light_maroon"
+                            android:textColor="@android:color/black"
+                            android:layout_gravity="center_vertical"
+                            android:drawableLeft="@drawable/ic_baseline_access_time_24"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/register_danaya_place_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <EditText
+                            android:id="@+id/register_danaya_place"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="         ස්ථානය"
+                            android:inputType="textPersonName"
+                            android:backgroundTint="@color/light_maroon"
+                            android:textColor="@android:color/black"
+                            android:layout_gravity="center_vertical"
+                            android:drawableLeft="@drawable/ic_baseline_edit_location_24"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:id="@+id/admin_add_danaya_date_picker_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <Button
+                            android:id="@+id/admin__add_danaya_date_picker_btn"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
+                            android:text="දිනය"
+                            android:textSize="15dp"
+                            android:layout_marginTop="10dp"
+                            android:shadowColor="@android:color/transparent"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:backgroundTint="@color/browser_actions_title_color"
+                            android:drawableLeft="@drawable/ic_baseline_date_range_24"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/register_danaya_date_error"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/register_danaya_date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="1"
+                                android:backgroundTint="@color/light_maroon"
+                                android:singleLine="true"
+                                android:textColor="@android:color/black"
+                                android:layout_gravity="center_vertical"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/register_danaya_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register"
+                        android:textSize="20dp"
+                        android:layout_marginTop="10dp"
+                        android:shadowColor="@android:color/transparent"
+                        android:padding="15dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:backgroundTint="@color/main_orange_light_color"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/admin_add_danaya_progressBar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</RelativeLayout>

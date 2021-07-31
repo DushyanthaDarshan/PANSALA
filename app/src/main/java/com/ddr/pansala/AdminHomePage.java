@@ -69,7 +69,8 @@ public class AdminHomePage extends AppCompatActivity {
         adminDanayaLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "This feature will be coming soon...", Toast.LENGTH_LONG).show();
+                Intent openAdminEventPage = new Intent(getApplicationContext(), AdminAddDanaya.class);
+                startActivity(openAdminEventPage);
             }
         });
 
