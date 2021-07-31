@@ -52,7 +52,7 @@ public class AdminAddDanaya extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private FirebaseDatabase rootNode;
-    private DatabaseReference danayaReference;
+    private DatabaseReference eventReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,17 +211,17 @@ public class AdminAddDanaya extends AppCompatActivity {
         isAlreadyRegistered = false;
 
         rootNode = FirebaseDatabase.getInstance();
-        danayaReference = rootNode.getReference("DANAYA");
+        eventReference = rootNode.getReference("EVENT");
 
-        danayaReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        eventReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
-                        Danaya danaya = dataSnapshot.getValue(Danaya.class);
+                        Event danaya = dataSnapshot.getValue(Event.class);
                         if (danaya != null) {
-                            if (danaya.getUsername().equals(username) && danaya.getDanayaDate().equals(date) &&
-                                    danaya.getDanayaTime().equals(time)) {
+                            if (danaya.getUsername().equals(username) && danaya.getEventDate().equals(date) &&
+                                    danaya.getEventTime().equals(time)) {
                                 isAlreadyRegistered = true;
                             }
                         }
@@ -229,11 +229,12 @@ public class AdminAddDanaya extends AppCompatActivity {
 
                     if (!isAlreadyRegistered) {
                         FirebaseUser user = auth.getCurrentUser();
-                        String key = danayaReference.push().getKey();
+                        String key = eventReference.push().getKey();
                         long unixTime = System.currentTimeMillis() / 1000L;
 
-                        Danaya danaya = new Danaya(username, date, time, place, "ACTIVE", user.getUid(), unixTime);
-                        danayaReference.child(key).setValue(danaya, new DatabaseReference.CompletionListener() {
+                        Event danaya = new Event("NO", key, "danaya", "danaya", date, time, place, "NO", user.getUid(), unixTime);
+                        danaya.setUsername(username);
+                        eventReference.child(key).setValue(danaya, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
                                 progressBar.setVisibility(View.GONE);

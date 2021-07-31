@@ -1,7 +1,6 @@
 package com.ddr.pansala;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,25 +9,17 @@ import androidx.core.app.NotificationCompat;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -44,25 +35,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -250,12 +230,20 @@ public class UserEventCalendar extends AppCompatActivity {
                                     for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
                                         Event eventFromFirebase = dataSnapshot.getValue(Event.class);
                                         if (eventFromFirebase != null) {
-                                            if (eventFromFirebase.getUserId().equals(userPreferenceTempleId)) {
+                                            String emailFromFile = CommonMethods.getEmailFromSession();
+                                            if (eventFromFirebase.getUserId().equals(userPreferenceTempleId) ||
+                                                    eventFromFirebase.getUsername().equals(emailFromFile)) {
                                                 Calendar calendar = Calendar.getInstance();
                                                 List<String> splitDate = Arrays.asList(eventFromFirebase.getEventDate().split("-"));
                                                 calendar.set(Integer.parseInt(splitDate.get(0)), Integer.parseInt(splitDate.get(1))-1, Integer.parseInt(splitDate.get(2)));
                                                 calendars.add(calendar);
-                                                EventDay eventDay = new EventDay(calendar, R.drawable.alms_giving, R.color.maroon);
+                                                EventDay eventDay;
+                                                if (eventFromFirebase.getEventName().equals("danaya") &&
+                                                        eventFromFirebase.getEventDescription().equals("danaya")) {
+                                                    eventDay = new EventDay(calendar, R.drawable.katina, R.color.main_orange_color);
+                                                } else {
+                                                    eventDay = new EventDay(calendar, R.drawable.alms_giving, R.color.maroon);
+                                                }
                                                 events.add(eventDay);
                                                 eventsList.add(eventFromFirebase);
 

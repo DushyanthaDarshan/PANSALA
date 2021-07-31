@@ -10,6 +10,7 @@ public class Event {
     private String eventTime;
     private String eventPlace;
     private String imageId;
+    private String username;
 
     private String eventStatus;
     private String createdBy;
@@ -139,6 +140,14 @@ public class Event {
         this.imageId = imageId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -150,6 +159,7 @@ public class Event {
                 ", eventTime='" + eventTime + '\'' +
                 ", eventPlace='" + eventPlace + '\'' +
                 ", imageId='" + imageId + '\'' +
+                ", username='" + username + '\'' +
                 ", eventStatus='" + eventStatus + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", createdTimestamp=" + createdTimestamp +

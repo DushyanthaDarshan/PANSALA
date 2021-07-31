@@ -21,38 +21,6 @@ public class CommonMethods {
         FirebaseAuth.getInstance().signOut();
     }
 
-//    /**
-//     * The method for get current user details from firebase
-//     *
-//     * @return
-//     */
-//    protected static UserRole populateCurrentUserDetails(String userId) {
-//        rootNode = FirebaseDatabase.getInstance();
-//        reference = rootNode.getReference("USER");
-//
-//        List<UserRole> userRoleList = new ArrayList<>();
-//        UserRole user = null;
-//        if(userId != null){
-//            reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<DataSnapshot> task) {
-//                    if (task.isSuccessful()) {
-//                        for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
-//                            UserRole userRole = dataSnapshot.getValue(UserRole.class);
-//                            userRoleList.add(userRole);
-//                        }
-//                    }
-//                }
-//            });
-//            for (int i = 0; userRoleList.size() > i; i++) {
-//                if (userRoleList.get(i).getUserId().equals(userId)) {
-//                    user = userRoleList.get(i);
-//                }
-//            }
-//        }
-//        return user;
-//    }
-
     protected static void saveSession(Context context, UserRole userRole, String password) {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getString("name",null) != null) {

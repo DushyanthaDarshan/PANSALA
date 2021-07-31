@@ -254,9 +254,10 @@ public class AdminEventsView extends AppCompatActivity {
                                 }
                             }
 
-                        } else {
-                            showErrorDialog("No events");
                         }
+                    }
+                    if (eventNamesList.size() == 0) {
+                        showErrorDialog("No events");
                     }
                 } else {
                     showErrorDialog("There is a internal server error");
