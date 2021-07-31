@@ -287,7 +287,24 @@ public class UserEventCalendar extends AppCompatActivity {
                                             @Override
                                             public void onDayClick(EventDay eventDay) {
                                                 Calendar clickedDayCalendar = eventDay.getCalendar();
-                                                Toast.makeText(getApplicationContext(), "IAAAAAAAAAAAAAAAAAAAAAAA" + clickedDayCalendar.toString(), Toast.LENGTH_LONG).show();
+                                                int year = clickedDayCalendar.get(Calendar.YEAR);
+                                                int month = clickedDayCalendar.get(Calendar.MONTH);
+                                                int day = clickedDayCalendar.get(Calendar.DAY_OF_MONTH);
+                                                String date = year + "-" + (month + 1) + "-" + day;
+                                                if (eventsList.size() != 0) {
+                                                    for (Event event : eventsList) {
+                                                        if (event != null) {
+                                                            if (event.getEventDate().equals(date)) {
+                                                                new SweetAlertDialog(UserEventCalendar.this)
+                                                                        .setTitleText(event.getEventName().concat("...")
+                                                                                .concat("\n \u2022 දිනය: ").concat(event.getEventDate())
+                                                                                .concat("\n \u2022 වෙලාව: ").concat(event.getEventTime())
+                                                                                .concat("\n \u2022 ස්ථානය: ").concat(event.getEventPlace()))
+                                                                        .show();
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
                                         });
                                     }
