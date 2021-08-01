@@ -57,6 +57,8 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="0.8"
             android:layout_height="40dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/main_orange_color"
             android:layout_below="@+id/s_admin_temple_view_avatar"
             android:layout_alignRight="@+id/s_admin_view_temple_search_view"
             android:layout_marginTop="50dp"

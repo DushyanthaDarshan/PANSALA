@@ -54,11 +54,11 @@ public class CustomListAdapterSuperAdminViewTemples extends ArrayAdapter<String>
         ImageView imageView = (ImageView) rowView.findViewById(R.id.s_admin_view_image);
 
         templeName.setText(templeNamesList.get(position));
-        wiharadhipathiHimi.setText(wiharadhipathiHimiNamesList.get(position));
-        email.setText(emailList.get(position));
-        address.setText(addressList.get(position));
-        telNo.setText(telNoList.get(position));
-        description.setText(descriptionList.get(position));
+        wiharadhipathiHimi.setText("විහාරාධිපති හිමියන්ගේ නම: ".concat(wiharadhipathiHimiNamesList.get(position)));
+        email.setText("විද්යුත් තැපෑල: ".concat(emailList.get(position)));
+        address.setText("ලිපිනය: ".concat(addressList.get(position)));
+        telNo.setText("දුරකථන අංකය: ".concat(telNoList.get(position)));
+        description.setText("වැඩිදුර තොරතුරු: ".concat(descriptionList.get(position)));
         imageView.setImageBitmap(templeImageList.get(position));
         return rowView;
     }

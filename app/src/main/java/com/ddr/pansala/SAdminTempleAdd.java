@@ -246,6 +246,7 @@ public class SAdminTempleAdd extends AppCompatActivity {
                                         }
                                     });
                                     temple.setUserId(user.getUid());
+                                    temple.setTempleDescription("NO");
                                     templeReference.child(key2).setValue(temple, new DatabaseReference.CompletionListener() {
                                         @Override
                                         public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {

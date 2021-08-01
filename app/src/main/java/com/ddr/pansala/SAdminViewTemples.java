@@ -238,7 +238,7 @@ public class SAdminViewTemples extends AppCompatActivity {
                         addressList.add(temple.getString("templeAddress"));
                         telNoList.add(temple.getString("telNo"));
                         emailList.add(temple.getString("email"));
-                        descriptionList.add(temple.getString("userStatus"));
+                        descriptionList.add((temple.getString("templeDescription") == "NO") ? temple.getString("templeDescription") : "-");
                         templeImageList.add(Bitmap.createScaledBitmap(bitmap, 500, 500, true));
                     }
                 } else {
