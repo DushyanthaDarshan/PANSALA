@@ -51,10 +51,10 @@ public class CustomListAdapterAdminViewEvents extends ArrayAdapter<String> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.admin_view_event_image);
 
         eventName.setText(eventNamesList.get(position));
-        date.setText(dateList.get(position));
-        time.setText(timeList.get(position));
-        place.setText(placeList.get(position));
-        description.setText(eventDescriptionList.get(position));
+        date.setText("දිනය: ".concat(dateList.get(position)));
+        time.setText("වෙලාව: ".concat(timeList.get(position)));
+        place.setText("ස්ථානය: ".concat(placeList.get(position)));
+        description.setText("වැඩිදුර තොරතුරු: ".concat(eventDescriptionList.get(position)));
         imageView.setImageBitmap(imageList.get(position));
         return rowView;
     }
