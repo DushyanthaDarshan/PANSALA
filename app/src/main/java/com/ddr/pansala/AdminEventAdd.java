@@ -67,7 +67,7 @@ public class AdminEventAdd extends AppCompatActivity {
     private String timeErrorMessage = null;
     private String descriptionErrorMessage = null;
     private String dateErrorMessage = null;
-    private String convertedDate;
+    private String convertedDate = "";
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private FirebaseDatabase rootNode;
@@ -434,6 +434,7 @@ public class AdminEventAdd extends AppCompatActivity {
                 DatePicker datePicker = (DatePicker) dateLayout.findViewById(R.id.datePicker);
                 convertedDate = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth();
                 dateTextView.setText(convertedDate);
+                dateError.setErrorEnabled(false);
             }
         });
         AlertDialog dialog = builder.create();

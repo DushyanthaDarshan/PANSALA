@@ -38,7 +38,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 /**
  * author : Dushyantha Darshan Rubasinghe
  */
-
 public class AdminAddDanaya extends AppCompatActivity {
 
     private EditText userNameFromXml, timeFromXml, placeFromXml;
@@ -52,7 +51,7 @@ public class AdminAddDanaya extends AppCompatActivity {
     private String placeErrorMessage = null;
     private String timeErrorMessage = null;
     private String dateErrorMessage = null;
-    private String convertedDate;
+    private String convertedDate = "";
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private FirebaseDatabase rootNode;
@@ -313,6 +312,7 @@ public class AdminAddDanaya extends AppCompatActivity {
                 DatePicker datePicker = (DatePicker) dateLayout.findViewById(R.id.datePicker);
                 convertedDate = datePicker.getYear() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getDayOfMonth();
                 dateTextView.setText(convertedDate);
+                dateError.setErrorEnabled(false);
             }
         });
         AlertDialog dialog = builder.create();

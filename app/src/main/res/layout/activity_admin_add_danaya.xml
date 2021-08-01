@@ -75,6 +75,7 @@
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
+                    android:id="@+id/admin_add_1st_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -190,11 +191,23 @@
                         android:layout_marginLeft="10dp"
                         android:backgroundTint="@color/main_orange_light_color" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/gray"
+                        android:shadowColor="@color/white"
+                        android:shadowDx="2.5"
+                        android:shadowDy="2.5"
+                        android:shadowRadius="1.6"
+                        android:layout_marginTop="25dp"
+                        android:text="@string/copyrigts_dushyantha_rubasinghe"/>
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-
         </ScrollView>
 
         <ProgressBar
