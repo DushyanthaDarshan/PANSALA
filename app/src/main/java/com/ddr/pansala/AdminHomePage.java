@@ -69,8 +69,8 @@ public class AdminHomePage extends AppCompatActivity {
         adminDanayaLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent openAdminEventPage = new Intent(getApplicationContext(), AdminAddDanaya.class);
-                startActivity(openAdminEventPage);
+                Intent openAdminDanayaPage = new Intent(getApplicationContext(), AdminAddDanaya.class);
+                startActivity(openAdminDanayaPage);
             }
         });
 

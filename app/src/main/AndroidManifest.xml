@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pansala">
-        <activity android:name=".AdminAddDanaya"></activity>
+        <activity android:name=".AdminAddDanaya" />
         <activity android:name=".UserTemple" />
         <activity android:name=".UserEventCalendar" />
         <activity android:name=".UserSearchTemple" />
