@@ -1,11 +1,15 @@
 package com.ddr.pansala;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class Img {
 
     private String imgId;
     private String referenceId;
 
-    public Img() {}
+    public Img() {
+    }
 
     public Img(String imgId, String referenceId) {
         this.imgId = imgId;

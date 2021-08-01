@@ -2,6 +2,9 @@ package com.ddr.pansala;
 
 import java.io.Serializable;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class Temple extends UserRole implements Serializable {
 
     private String templeName;

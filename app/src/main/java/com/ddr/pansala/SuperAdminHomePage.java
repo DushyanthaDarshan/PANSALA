@@ -1,8 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,14 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * author : Dushyantha Darshan Rubasinghe
- *
  */
 
 public class SuperAdminHomePage extends AppCompatActivity {
@@ -157,7 +153,7 @@ public class SuperAdminHomePage extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.settings){
+        if (id == R.id.settings) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Settings");
             builder.setMessage("This feature will be coming soon...");
@@ -171,7 +167,7 @@ public class SuperAdminHomePage extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-        if(id == R.id.about){
+        if (id == R.id.about) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("About");
             builder.setMessage("This feature will be coming soon...");

@@ -7,14 +7,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class NotificationPage extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE) ;
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         String CHANNEL_ID = "my_channel_01";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             CharSequence name = "my_channel";
@@ -31,8 +33,8 @@ public class NotificationPage extends BroadcastReceiver {
         }
 
         Notification notification = intent.getParcelableExtra("NOTIFICATION");
-        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-            int importance = NotificationManager. IMPORTANCE_HIGH ;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance);
             assert notificationManager != null;
             notificationManager.createNotificationChannel(notificationChannel);

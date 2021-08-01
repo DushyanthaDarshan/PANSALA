@@ -12,11 +12,13 @@
 
         <menu>
 
-            <item android:id="@+id/about"
+            <item
+                android:id="@+id/about"
                 app:showAsAction="ifRoom"
                 android:title="@string/about" />
 
-            <item android:id="@+id/settings"
+            <item
+                android:id="@+id/settings"
                 app:showAsAction="ifRoom"
                 android:title="@string/settings" />
 

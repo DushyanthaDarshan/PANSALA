@@ -1,8 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,8 +12,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class AdminEventsPage extends AppCompatActivity {
 
     private LinearLayout adminEventAddLayout, adminEventViewLayout;

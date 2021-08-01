@@ -1,9 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,11 +10,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +36,9 @@ import java.util.concurrent.ExecutionException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class UserTemple extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -191,15 +193,15 @@ public class UserTemple extends AppCompatActivity {
             image1.setImageBitmap(listOfImages.get(0));
             image2.setImageBitmap(listOfImages.get(1));
             image3.setImageBitmap(listOfImages.get(2));
-        } else if (listOfImages.size() == 2){
+        } else if (listOfImages.size() == 2) {
             image1.setImageBitmap(listOfImages.get(0));
             image2.setImageBitmap(listOfImages.get(1));
             image3.setVisibility(View.INVISIBLE);
-        } else if (listOfImages.size() == 1){
+        } else if (listOfImages.size() == 1) {
             image1.setImageBitmap(listOfImages.get(0));
             image2.setVisibility(View.INVISIBLE);
             image3.setVisibility(View.INVISIBLE);
-        } else if (listOfImages.size() == 0){
+        } else if (listOfImages.size() == 0) {
             image1.setImageBitmap(Bitmap.createScaledBitmap(commonTempleImage, 500, 500, true));
             image2.setVisibility(View.INVISIBLE);
             image3.setVisibility(View.INVISIBLE);
@@ -218,13 +220,12 @@ public class UserTemple extends AppCompatActivity {
                     imageId = strings[0];
                 }
 
-                //TODO - get all images from firebase
                 //check access token scenario
                 //for now i skip that
                 String baseUrl = "https://firebasestorage.googleapis.com/v0/b/pansala-android-project.appspot.com/o/TEMPLE_IMAGE%2F" + imageId + "?alt=media";
                 URL url = new URL(baseUrl);
                 image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println(e);
             }
             return image;

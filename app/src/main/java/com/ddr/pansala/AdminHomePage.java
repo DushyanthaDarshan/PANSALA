@@ -1,8 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,11 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * author : Dushyantha Darshan Rubasinghe
- *
  */
 public class AdminHomePage extends AppCompatActivity {
 
@@ -77,6 +76,7 @@ public class AdminHomePage extends AppCompatActivity {
         adminInformationLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO - implement information block
                 Toast.makeText(getApplicationContext(), "This feature will be coming soon...", Toast.LENGTH_LONG).show();
             }
         });
@@ -153,7 +153,7 @@ public class AdminHomePage extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.settings){
+        if (id == R.id.settings) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Settings");
             builder.setMessage("This feature will be coming soon...");
@@ -167,7 +167,7 @@ public class AdminHomePage extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-        if(id == R.id.about){
+        if (id == R.id.about) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("About");
             builder.setMessage("This feature will be coming soon...");

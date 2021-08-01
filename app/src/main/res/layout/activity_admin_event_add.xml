@@ -54,7 +54,7 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:text="@string/add_events"/>
+                android:text="@string/add_events" />
         </LinearLayout>
 
         <ScrollView
@@ -72,7 +72,7 @@
                 app:cardMaxElevation="12dp"
                 android:layout_centerVertical="true"
                 app:cardPreventCornerOverlap="true"
-                app:cardUseCompatPadding="true" >
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                             android:inputType="textPersonName"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_event_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_event_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,7 +115,7 @@
                             android:backgroundTint="@color/light_maroon"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_event_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_event_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,7 +134,7 @@
                             android:backgroundTint="@color/light_maroon"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_access_time_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_access_time_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -153,14 +153,14 @@
                             android:backgroundTint="@color/light_maroon"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_edit_location_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_edit_location_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
                         android:id="@+id/admin_date_picker_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
+                        android:layout_height="match_parent">
 
                         <Button
                             android:id="@+id/date_picker_btn"
@@ -174,7 +174,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginLeft="10dp"
                             android:backgroundTint="@color/browser_actions_title_color"
-                            android:drawableLeft="@drawable/ic_baseline_date_range_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_date_range_24" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/register_event_date_error"
@@ -190,7 +190,7 @@
                                 android:backgroundTint="@color/light_maroon"
                                 android:singleLine="true"
                                 android:textColor="@android:color/black"
-                                android:layout_gravity="center_vertical"/>
+                                android:layout_gravity="center_vertical" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -208,7 +208,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:backgroundTint="@color/maroon"
-                        android:drawableLeft="@drawable/ic_baseline_image_search_24"/>
+                        android:drawableLeft="@drawable/ic_baseline_image_search_24" />
 
                     <ImageView
                         android:id="@+id/admin_event_add_post_image"
@@ -226,7 +226,7 @@
                         android:padding="15dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
-                        android:backgroundTint="@color/main_orange_light_color"/>
+                        android:backgroundTint="@color/main_orange_light_color" />
 
                 </LinearLayout>
 

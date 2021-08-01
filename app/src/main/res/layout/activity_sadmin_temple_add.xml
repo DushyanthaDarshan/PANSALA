@@ -54,7 +54,7 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:text="@string/add_wiharasthana"/>
+                android:text="@string/add_wiharasthana" />
         </LinearLayout>
 
         <ScrollView
@@ -72,7 +72,7 @@
                 app:cardMaxElevation="12dp"
                 android:layout_centerVertical="true"
                 app:cardPreventCornerOverlap="true"
-                app:cardUseCompatPadding="true" >
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                             android:inputType="textPersonName"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_person_outline_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_person_outline_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,7 +115,7 @@
                             android:backgroundTint="@color/light_maroon"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_person_outline_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_person_outline_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,7 +134,7 @@
                             android:backgroundTint="@color/light_maroon"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_person_outline_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_person_outline_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -153,7 +153,7 @@
                             android:backgroundTint="@color/light_maroon"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_edit_location_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_edit_location_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,7 +174,7 @@
                             android:singleLine="true"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_account_circle_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_account_circle_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -195,7 +195,7 @@
                             android:singleLine="true"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_lock_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_lock_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -216,7 +216,7 @@
                             android:backgroundTint="@color/light_maroon"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:drawableLeft="@drawable/ic_baseline_lock_24"/>
+                            android:drawableLeft="@drawable/ic_baseline_lock_24" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -231,7 +231,7 @@
                         android:padding="15dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
-                        android:backgroundTint="@color/main_orange_light_color"/>
+                        android:backgroundTint="@color/main_orange_light_color" />
 
                 </LinearLayout>
 

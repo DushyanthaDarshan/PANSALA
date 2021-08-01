@@ -19,7 +19,6 @@
         android:textSize="18sp"
         android:textColor="@color/red"
         android:textStyle="bold"
-        android:padding="5dp"
-        />
+        android:padding="5dp" />
 
 </LinearLayout>

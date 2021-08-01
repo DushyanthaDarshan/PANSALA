@@ -1,9 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -12,55 +8,40 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-import static android.content.ContentValues.TAG;
-
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class SAdminViewTemples extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -124,7 +105,7 @@ public class SAdminViewTemples extends AppCompatActivity {
 
                 String searchText = searchView.getText().toString().trim();
                 for (int i = 0; templeNamesList.size() > i; i++) {
-                    String templeName= templeNamesList.get(i);
+                    String templeName = templeNamesList.get(i);
                     List<String> splitNamesList = Arrays.asList(templeName.split(" "));
                     if (splitNamesList.contains(searchText)) {
                         tempTempleNamesList.add(templeName);
@@ -141,7 +122,7 @@ public class SAdminViewTemples extends AppCompatActivity {
                             tempAddressList, tempEmailList, tempDescriptionList, tempTempleImageList);
                 } else {
                     executeListView(templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList,
-                            emailList, descriptionList,templeImageList);
+                            emailList, descriptionList, templeImageList);
                     showErrorDialog("There are no any matched temples found. Try using another word....");
                 }
             }
@@ -266,7 +247,7 @@ public class SAdminViewTemples extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            executeListView(templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList,templeImageList);
+            executeListView(templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList, templeImageList);
             progress.dismiss();
         }
 

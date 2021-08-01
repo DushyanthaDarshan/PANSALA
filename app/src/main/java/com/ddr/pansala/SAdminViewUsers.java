@@ -1,8 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -23,6 +20,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +39,9 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class SAdminViewUsers extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -96,7 +99,7 @@ public class SAdminViewUsers extends AppCompatActivity {
 
                 String searchText = searchView.getText().toString().trim();
                 for (int i = 0; usersNamesList.size() > i; i++) {
-                    String templeName= usersNamesList.get(i);
+                    String templeName = usersNamesList.get(i);
                     List<String> splitNamesList = Arrays.asList(templeName.split(" "));
                     if (splitNamesList.contains(searchText)) {
                         tempUsersNamesList.add(templeName);
@@ -268,13 +271,6 @@ public class SAdminViewUsers extends AppCompatActivity {
                 usersNamesList, emailList, userTypeList, userStatusList, usersDpList);
         ListView listView = (ListView) findViewById(R.id.s_admin_users_list_view);
         listView.setAdapter(adapter);
-
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getApplicationContext(), templeNamesList.get(position), Toast.LENGTH_LONG);
-//            }
-//        });
     }
 
     public void showErrorDialog(String errorMessage) {

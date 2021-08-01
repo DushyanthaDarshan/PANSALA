@@ -1,11 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -24,6 +18,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -49,6 +49,10 @@ import java.util.Date;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class UserEventCalendar extends AppCompatActivity {
@@ -196,7 +200,7 @@ public class UserEventCalendar extends AppCompatActivity {
                                                     eventFromFirebase.getUsername().equals(emailFromFile)) {
                                                 Calendar calendar = Calendar.getInstance();
                                                 List<String> splitDate = Arrays.asList(eventFromFirebase.getEventDate().split("-"));
-                                                calendar.set(Integer.parseInt(splitDate.get(0)), Integer.parseInt(splitDate.get(1))-1, Integer.parseInt(splitDate.get(2)));
+                                                calendar.set(Integer.parseInt(splitDate.get(0)), Integer.parseInt(splitDate.get(1)) - 1, Integer.parseInt(splitDate.get(2)));
                                                 calendars.add(calendar);
                                                 EventDay eventDay;
                                                 if (eventFromFirebase.getEventName().equals("danaya") &&
@@ -210,7 +214,7 @@ public class UserEventCalendar extends AppCompatActivity {
 
                                                 //check event is already added to the file or not. if not update file and added to the set notifications
                                                 SharedPreferences sharedPreferences =
-                                                        getSharedPreferences("Event_id_list_file",MODE_PRIVATE);
+                                                        getSharedPreferences("Event_id_list_file", MODE_PRIVATE);
                                                 String eventIdListFromFile = sharedPreferences.getString("eventId", null);
                                                 int number = sharedPreferences.getInt("notificationId", 0);
                                                 String myDate = splitDate.get(0) + "/" + splitDate.get(1) + "/" +
@@ -304,7 +308,7 @@ public class UserEventCalendar extends AppCompatActivity {
             //get the gap and subtract 41 hours.
             //41 hours means notification will be appear before 41 hours
             delay = (millis - currentMillis) - 147600000;
-            if (delay <= 0 ) {
+            if (delay <= 0) {
                 delay = 20000;
             }
         } catch (DateTimeException | ParseException dateTimeException) {
@@ -315,19 +319,19 @@ public class UserEventCalendar extends AppCompatActivity {
                 .concat(event.getEventPlace())), delay, num);
     }
 
-    private void scheduleNotification (Notification notification, long delay, int num) {
+    private void scheduleNotification(Notification notification, long delay, int num) {
         Intent notificationIntent = new Intent(this, NotificationPage.class);
         notificationIntent.putExtra("NOTIFICATION_ID", num);
         notificationIntent.putExtra("NOTIFICATION", notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, num-1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, num - 1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         long futureInMillis = SystemClock.elapsedRealtime() + delay;
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
 
-    private Notification getNotification (String content) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id);
+    private Notification getNotification(String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
         builder.setContentTitle("පිංකම් දැනුම්දීම");
         builder.setContentText(content);
         builder.setSmallIcon(R.mipmap.ic_launcher);

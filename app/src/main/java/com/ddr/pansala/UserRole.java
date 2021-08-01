@@ -1,10 +1,10 @@
 package com.ddr.pansala;
 
-import android.util.Log;
-
 import java.io.Serializable;
-import java.sql.Timestamp;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class UserRole implements Serializable {
 
     private String userId;

@@ -11,7 +11,6 @@ import java.util.List;
 
 /**
  * author : Dushyantha Darshan Rubasinghe
- *
  */
 public class CommonMethods {
 
@@ -23,7 +22,7 @@ public class CommonMethods {
 
     protected static void saveSession(Context context, UserRole userRole, String password) {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (prefs.getString("name",null) != null) {
+        if (prefs.getString("name", null) != null) {
             clearSession(context);
         }
         prefs.edit().putString("name", userRole.getName()).apply();
@@ -41,7 +40,7 @@ public class CommonMethods {
      */
     protected static String getName() {
         String displayName = null;
-        String fullName = prefs.getString("name",null);
+        String fullName = prefs.getString("name", null);
         List<String> splitName = Arrays.asList(fullName.split(" "));
         if (splitName.size() != 0) {
             displayName = splitName.get(0);
@@ -50,22 +49,23 @@ public class CommonMethods {
     }
 
     protected static String getFullName() {
-        return prefs.getString("name",null);
+        return prefs.getString("name", null);
     }
 
     protected static String getUserIdFromSession() {
-        return prefs.getString("userId",null);
+        return prefs.getString("userId", null);
     }
+
     protected static String getUserTypeFromSession() {
-        return prefs.getString("userType",null);
+        return prefs.getString("userType", null);
     }
 
     protected static String getPasswordFromSession() {
-        return prefs.getString("pw",null);
+        return prefs.getString("pw", null);
     }
 
     protected static String getEmailFromSession() {
-        return prefs.getString("email",null);
+        return prefs.getString("email", null);
     }
 
     protected static void clearSession(Context context) {

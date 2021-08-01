@@ -1,10 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -25,6 +20,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,10 +49,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class UserSearchTemple extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -126,7 +128,7 @@ public class UserSearchTemple extends AppCompatActivity {
 
                 String searchText = searchView.getText().toString().trim();
                 for (int i = 0; templeNamesList.size() > i; i++) {
-                    String templeName= templeNamesList.get(i);
+                    String templeName = templeNamesList.get(i);
                     List<String> splitNamesList = Arrays.asList(templeName.split(" "));
                     if (splitNamesList.contains(searchText)) {
                         tempTempleNamesList.add(templeName);
@@ -144,7 +146,7 @@ public class UserSearchTemple extends AppCompatActivity {
                             tempAddressList, tempEmailList, tempDescriptionList, tempTempleImageList);
                 } else {
                     executeListView(templeIdList, templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList,
-                            emailList, descriptionList,templeImageList);
+                            emailList, descriptionList, templeImageList);
                     showErrorDialog("There are no any matched temples found. Try using another word....");
                 }
             }
@@ -287,14 +289,9 @@ public class UserSearchTemple extends AppCompatActivity {
                     }
 
                     if (!isAlreadySelected) {
-//                        String key = userReference.push().getKey();
-                        long unixTime = System.currentTimeMillis() / 1000L;
-
                         userReference.child(key).child("preferenceTempleId").setValue(templeId, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
-//                                CommonMethods.clearSession(getApplicationContext());
-//                                CommonMethods.saveSession(getApplicationContext(), event, password);
                                 progressBar.setVisibility(View.GONE);
                             }
                         });
@@ -349,7 +346,7 @@ public class UserSearchTemple extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            executeListView(templeIdList, templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList,templeImageList);
+            executeListView(templeIdList, templeNamesList, wiharadhipathiHimiNamesList, telNoList, addressList, emailList, descriptionList, templeImageList);
             progress.dismiss();
         }
 

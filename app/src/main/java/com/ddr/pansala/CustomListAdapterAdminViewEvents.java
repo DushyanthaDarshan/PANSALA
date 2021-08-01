@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class CustomListAdapterAdminViewEvents extends ArrayAdapter<String> {
 
     private final Activity context;

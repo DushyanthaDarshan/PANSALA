@@ -10,6 +10,6 @@
         android:textColor="@color/white"
         android:background="@color/maroon"
         android:textStyle="bold"
-        android:text="@string/ask_user_msg_for_temple"/>
+        android:text="@string/ask_user_msg_for_temple" />
 
 </LinearLayout>

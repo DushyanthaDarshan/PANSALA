@@ -1,10 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -16,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,14 +19,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +48,9 @@ import java.util.UUID;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class AdminEventAdd extends AppCompatActivity {
 
     private EditText eventNameFromXml, descriptionFromXml, timeFromXml,
@@ -230,8 +230,6 @@ public class AdminEventAdd extends AppCompatActivity {
         if (isEventNameValid && isPlaceValid && isDateValid && isDescriptionValid && isTimeValid) {
             firebaseProcess(eventName, description, convertedDate, time, place);
         } else {
-//                    alreadySignText.setTextSize(13l);
-//                    alreadySign.setTextSize(13l);
             progressBar.setVisibility(View.GONE);
         }
     }
@@ -269,8 +267,6 @@ public class AdminEventAdd extends AppCompatActivity {
                         eventReference.child(key).setValue(event, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
-//                                CommonMethods.clearSession(getApplicationContext());
-//                                CommonMethods.saveSession(getApplicationContext(), event, password);
                                 progressBar.setVisibility(View.GONE);
                             }
                         });
@@ -314,14 +310,14 @@ public class AdminEventAdd extends AppCompatActivity {
                     showErrorDialog("Failed " + e.getMessage());
                 }
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    // Progress Listener for loading
-                    // percentage on the dialog box
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                        progressDialog.setMessage("Uploaded " + (int)progress + "%");
-                    }
-                });
+                // Progress Listener for loading
+                // percentage on the dialog box
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                }
+            });
         }
     }
 

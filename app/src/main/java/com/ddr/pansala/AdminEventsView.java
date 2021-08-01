@@ -1,9 +1,5 @@
 package com.ddr.pansala;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -12,11 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,21 +19,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -52,6 +40,9 @@ import java.util.concurrent.ExecutionException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class AdminEventsView extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -109,7 +100,7 @@ public class AdminEventsView extends AppCompatActivity {
 
                 String searchText = searchView.getText().toString().trim();
                 for (int i = 0; eventNamesList.size() > i; i++) {
-                    String templeName= eventNamesList.get(i);
+                    String templeName = eventNamesList.get(i);
                     List<String> splitNamesList = Arrays.asList(templeName.split(" "));
                     if (splitNamesList.contains(searchText)) {
                         tempEventNamesList.add(templeName);
@@ -340,7 +331,7 @@ public class AdminEventsView extends AppCompatActivity {
                 String baseUrl = "https://firebasestorage.googleapis.com/v0/b/pansala-android-project.appspot.com/o/EVENT_IMAGE%2F" + imageId + "?alt=media";
                 URL url = new URL(baseUrl);
                 image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println(e);
             }
             return image;

@@ -1,17 +1,9 @@
 package com.ddr.pansala;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -20,6 +12,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +34,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * author : Dushyantha Darshan Rubasinghe
+ */
 public class MainActivity extends AppCompatActivity {
 
     private EditText loginEmail, loginPassword;
@@ -99,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "This feature will be coming soon", Toast.LENGTH_LONG).show();
-//                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-//                startActivity(intent);
             }
         });
     }
@@ -110,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         progressBar.setVisibility(View.VISIBLE);
         FirebaseUser currentUser = auth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             CommonMethods.clearSession(getApplicationContext());
             reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
@@ -139,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             emailError = "Provided email is not valid email";
             emailErrorTextInput.setError(emailError);
             isEmailValid = false;
-        } else  {
+        } else {
             isEmailValid = true;
             emailErrorTextInput.setErrorEnabled(false);
         }
@@ -158,18 +155,10 @@ public class MainActivity extends AppCompatActivity {
             passwordError = "Provided password is too long";
             passErrorTextInput.setError(passwordError);
             isPasswordValid = false;
-        } else  {
+        } else {
             isPasswordValid = true;
             passErrorTextInput.setErrorEnabled(false);
         }
-
-//        if (!isEmailValid && !isPasswordValid) {
-//            showErrorDialog("Provided email and password are in invalid format");
-//        } else if (!isEmailValid) {
-//            showErrorDialog(emailError);
-//        } else if (!isPasswordValid) {
-//            showErrorDialog(passwordError);
-//        }
 
         if (isEmailValid && isPasswordValid) {
             progressBar.setVisibility(View.VISIBLE);
@@ -196,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                         }
-//                        finish();
                     } else {
                         progressBar.setVisibility(View.GONE);
                         showErrorDialog("Please check your email and password");
