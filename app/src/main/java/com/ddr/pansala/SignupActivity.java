@@ -232,7 +232,7 @@ public class SignupActivity extends AppCompatActivity {
         new SweetAlertDialog(
                 this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("Great!")
-                .setContentText("Registration Success.")
+                .setContentText("Registration Success. Please select temple, using block of විහාරස්ථාන සොයන්න")
                 .setConfirmText("Continue")
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
