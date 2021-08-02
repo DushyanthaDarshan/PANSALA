@@ -64,7 +64,7 @@
                         android:layout_width="100dp"
                         android:layout_height="140dp"
                         android:layout_marginStart="15dp"
-                        android:src="@drawable/temple_t"
+                        android:src="@drawable/temple_icon"
                         android:contentDescription="@string/wiharasthanaya" />
 
                     <TextView
@@ -90,7 +90,7 @@
                         android:layout_width="100dp"
                         android:layout_height="140dp"
                         android:layout_marginStart="5dp"
-                        android:src="@drawable/group_t"
+                        android:src="@drawable/pinkam"
                         android:contentDescription="@string/dayakayo" />
 
                     <TextView
@@ -123,8 +123,8 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginStart="5dp"
-                        android:src="@drawable/notices"
-                        android:contentDescription="@string/notice" />
+                        android:src="@drawable/search_temple"
+                        android:contentDescription="search temple" />
 
                     <TextView
                         android:layout_width="match_parent"

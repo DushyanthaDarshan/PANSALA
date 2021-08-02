@@ -49,7 +49,6 @@ public class UserTemple extends AppCompatActivity {
     private Boolean isSelected;
     private FirebaseAuth auth;
     private String userPreferenceTempleId;
-    private Temple temple;
     private TextView descriptionTextView;
     private List<Bitmap> listOfImages;
     private ImageView image1;
@@ -246,6 +245,8 @@ public class UserTemple extends AppCompatActivity {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         sDialog.dismiss();
+                        Intent openSuperAdminTemplePage = new Intent(getApplicationContext(), UserHomePage.class);
+                        startActivity(openSuperAdminTemplePage);
                     }
                 })
                 .show();

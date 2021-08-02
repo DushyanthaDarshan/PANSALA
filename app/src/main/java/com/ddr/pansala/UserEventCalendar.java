@@ -349,6 +349,8 @@ public class UserEventCalendar extends AppCompatActivity {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         sDialog.dismiss();
+                        Intent openSuperAdminTemplePage = new Intent(getApplicationContext(), UserHomePage.class);
+                        startActivity(openSuperAdminTemplePage);
                     }
                 })
                 .show();
