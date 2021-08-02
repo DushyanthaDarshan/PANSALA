@@ -85,9 +85,9 @@
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="140dp"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="5dp"
                         android:contentDescription="@string/add_events"
-                        android:src="@drawable/katina" />
+                        android:src="@drawable/pinkam_add" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -120,7 +120,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginStart="5dp"
-                        android:src="@drawable/katina"
+                        android:src="@drawable/pinkam_search"
                         android:contentDescription="@string/view_events" />
 
                     <TextView

@@ -80,7 +80,7 @@
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="140dp"
-                        android:src="@drawable/katina"
+                        android:src="@drawable/pinkam"
                         android:contentDescription="@string/pinkam" />
 
                     <TextView
@@ -106,7 +106,7 @@
                     <ImageView
                         android:layout_width="100dp"
                         android:layout_height="140dp"
-                        android:src="@drawable/alms_giving"
+                        android:src="@drawable/danaya"
                         android:contentDescription="@string/danaya" />
 
                     <TextView
@@ -137,8 +137,8 @@
                     android:padding="10dp">
 
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_marginStart="5dp"
                         android:src="@drawable/ic_baseline_info_24"
                         android:contentDescription="@string/informations" />

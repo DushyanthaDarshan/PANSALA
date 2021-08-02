@@ -217,7 +217,7 @@ public class AdminEventsView extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             String userId = CommonMethods.getUserIdFromSession();
-            Bitmap commonEventImage = BitmapFactory.decodeResource(getResources(), R.drawable.common_temple);
+            Bitmap commonEventImage = BitmapFactory.decodeResource(getResources(), R.drawable.pinkam);
             try {
                 if (eventsJson != null) {
                     JSONObject fullObject = new JSONObject(eventsJson);
