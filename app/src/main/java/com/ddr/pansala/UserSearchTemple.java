@@ -176,7 +176,7 @@ public class UserSearchTemple extends AppCompatActivity {
         builder.setTitle("පන්සල තෝරන්න");
         builder.setView(temple_layout);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("ඔව්", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -184,7 +184,7 @@ public class UserSearchTemple extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("නැත", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -293,6 +293,7 @@ public class UserSearchTemple extends AppCompatActivity {
                             @Override
                             public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
                                 progressBar.setVisibility(View.GONE);
+                                showSuccessDialog();
                             }
                         });
                     } else {
@@ -304,6 +305,22 @@ public class UserSearchTemple extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void showSuccessDialog() {
+        new SweetAlertDialog(
+                this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Great!...")
+                .setContentText("Temple successfully added as preference temple")
+                .setConfirmText("OK")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog
+                                .dismiss();
+                    }
+                })
+                .show();
     }
 
     public class FetchTempleDataForUser extends AsyncTask<String, Void, String> {
