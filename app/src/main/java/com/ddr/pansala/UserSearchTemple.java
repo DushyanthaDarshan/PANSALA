@@ -322,7 +322,7 @@ public class UserSearchTemple extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.common_temple);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.temple_icon);
             try {
                 if (templesJson != null) {
                     JSONObject fullObject = new JSONObject(templesJson);
