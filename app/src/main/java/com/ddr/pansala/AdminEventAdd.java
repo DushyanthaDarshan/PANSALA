@@ -48,9 +48,6 @@ import java.util.UUID;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
 public class AdminEventAdd extends AppCompatActivity {
 
     private EditText eventNameFromXml, descriptionFromXml, timeFromXml,
@@ -180,7 +177,7 @@ public class AdminEventAdd extends AppCompatActivity {
         // Check for a valid event name
         String eventName = eventNameFromXml.getText().toString();
         if (eventName.isEmpty()) {
-            eventNameErrorMessage = "Event name should not be empty";
+            eventNameErrorMessage = "පිංකමේ නම තීරුව හිස් නොවිය යුතුය";
             eventNameError.setError(eventNameErrorMessage);
             isEventNameValid = false;
         } else {
@@ -190,7 +187,7 @@ public class AdminEventAdd extends AppCompatActivity {
         // Check for a valid description
         String description = descriptionFromXml.getText().toString();
         if (description.isEmpty()) {
-            descriptionErrorMessage = "Description should not be empty";
+            descriptionErrorMessage = "පිංකමේ විස්තරය තීරුව හිස් නොවිය යුතුය";
             descriptionError.setError(descriptionErrorMessage);
             isDescriptionValid = false;
         } else {
@@ -199,7 +196,7 @@ public class AdminEventAdd extends AppCompatActivity {
         }
         // Check for a valid date
         if (convertedDate.isEmpty()) {
-            dateErrorMessage = "Date should not be empty";
+            dateErrorMessage = "දිනය තීරුව හිස් නොවිය යුතුය";
             dateError.setError(dateErrorMessage);
             isDateValid = false;
         } else {
@@ -209,7 +206,7 @@ public class AdminEventAdd extends AppCompatActivity {
         // Check for a valid time
         String time = timeFromXml.getText().toString();
         if (time.isEmpty()) {
-            timeErrorMessage = "Time should not be empty";
+            timeErrorMessage = "කාලය තීරුව හිස් නොවිය යුතුය";
             timeError.setError(timeErrorMessage);
             isTimeValid = false;
         } else {
@@ -219,7 +216,7 @@ public class AdminEventAdd extends AppCompatActivity {
         // Check for a valid place
         String place = placeFromXml.getText().toString();
         if (place.isEmpty()) {
-            placeErrorMessage = "Place should not be empty";
+            placeErrorMessage = "ස්ථානය හිස් නොවිය යුතුය";
             placeError.setError(placeErrorMessage);
             isPlaceValid = false;
         } else {
@@ -379,9 +376,9 @@ public class AdminEventAdd extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new SweetAlertDialog(AdminEventAdd.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Sign Out")
-                        .setContentText("Do you want to sign out from the app? ")
-                        .setConfirmText("Yes")
+                        .setTitleText("ගිණුමෙන් ඉවත්වීම")
+                        .setContentText("ඔබට යෙදුමෙන් ඉවත් වීමට අවශ්‍යද? ")
+                        .setConfirmText("ඔව්")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
@@ -401,7 +398,7 @@ public class AdminEventAdd extends AppCompatActivity {
                                 }, 1000);
                             }
                         })
-                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                        .setCancelButton("නැත", new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismiss();
@@ -411,7 +408,7 @@ public class AdminEventAdd extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("නැත", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

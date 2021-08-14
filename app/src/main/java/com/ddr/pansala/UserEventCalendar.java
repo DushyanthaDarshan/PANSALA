@@ -50,10 +50,6 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
-
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class UserEventCalendar extends AppCompatActivity {
 
@@ -108,16 +104,16 @@ public class UserEventCalendar extends AppCompatActivity {
         TextView logOutText = (TextView) avatarLayout.findViewById(R.id.logout_text);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Account");
+        builder.setTitle("ගිණුම");
         builder.setView(avatarLayout);
 
         logOutText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new SweetAlertDialog(UserEventCalendar.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Sign Out")
-                        .setContentText("Do you want to sign out from the app? ")
-                        .setConfirmText("Yes")
+                        .setTitleText("ගිණුමෙන් ඉවත්වීම")
+                        .setContentText("ඔබට යෙදුමෙන් ඉවත් වීමට අවශ්‍යද? ")
+                        .setConfirmText("ඔව්")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
@@ -137,7 +133,7 @@ public class UserEventCalendar extends AppCompatActivity {
                                 }, 1000);
                             }
                         })
-                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                        .setCancelButton("නැත", new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismiss();
@@ -147,7 +143,7 @@ public class UserEventCalendar extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("නැත", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -205,9 +201,9 @@ public class UserEventCalendar extends AppCompatActivity {
                                                 EventDay eventDay;
                                                 if (eventFromFirebase.getEventName().equals("danaya") &&
                                                         eventFromFirebase.getEventDescription().equals("danaya")) {
-                                                    eventDay = new EventDay(calendar, R.drawable.katina, R.color.main_orange_color);
-                                                } else {
                                                     eventDay = new EventDay(calendar, R.drawable.alms_giving, R.color.maroon);
+                                                } else {
+                                                    eventDay = new EventDay(calendar, R.drawable.katina, R.color.main_orange_color);
                                                 }
                                                 events.add(eventDay);
                                                 eventsList.add(eventFromFirebase);
@@ -308,7 +304,7 @@ public class UserEventCalendar extends AppCompatActivity {
             //get the gap and subtract 41 hours.
             //41 hours means notification will be appear before 41 hours
             delay = (millis - currentMillis) - 147600000;
-            if (delay <= 0) {
+            if (delay <= 20000) {
                 delay = 20000;
             }
         } catch (DateTimeException | ParseException dateTimeException) {

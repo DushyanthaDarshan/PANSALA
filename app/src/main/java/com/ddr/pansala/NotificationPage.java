@@ -8,9 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
 public class NotificationPage extends BroadcastReceiver {
 
     @Override

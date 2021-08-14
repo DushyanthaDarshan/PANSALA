@@ -1,8 +1,5 @@
 package com.ddr.pansala;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
 public class Img {
 
     private String imgId;

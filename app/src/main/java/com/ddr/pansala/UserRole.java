@@ -2,9 +2,6 @@ package com.ddr.pansala;
 
 import java.io.Serializable;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
 public class UserRole implements Serializable {
 
     private String userId;

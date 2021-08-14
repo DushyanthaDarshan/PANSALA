@@ -36,9 +36,6 @@ import org.jetbrains.annotations.NotNull;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
 public class SAdminTempleAdd extends AppCompatActivity {
 
     private EditText registerTempleName, registerWiharadhipathiHimi, templeTelNo,
@@ -121,7 +118,7 @@ public class SAdminTempleAdd extends AppCompatActivity {
     public void validateTempleAttributes(Temple temple) {
         // Check for a valid temple name
         if (temple.getTempleName().isEmpty()) {
-            templeNameErrorMessage = "Temple name should not be empty";
+            templeNameErrorMessage = "පන්සලේ නම තීරුව හිස් නොවිය යුතුය";
             templeNameError.setError(templeNameErrorMessage);
             isTempleNameValid = false;
         } else {
@@ -131,7 +128,7 @@ public class SAdminTempleAdd extends AppCompatActivity {
 
         // Check for a valid wiharadhipathi name
         if (temple.getTelNo().isEmpty()) {
-            wiharadhipathiErrorMessage = "Wiharadhipathi himi name should not be empty";
+            wiharadhipathiErrorMessage = "විහාරාධිපති හිමි තීරුව හිස් නොවිය යුතුය";
             wiharadhipathiError.setError(wiharadhipathiErrorMessage);
             isWiharadhipathiHimiNameValid = false;
         } else {
@@ -141,7 +138,7 @@ public class SAdminTempleAdd extends AppCompatActivity {
 
         // Check for a valid telephone no
         if (temple.getTelNo().isEmpty()) {
-            telephoneNoErrorMessage = "Telephone number should not be empty";
+            telephoneNoErrorMessage = "දුරකථන අංකය හිස් නොවිය යුතුය";
             templeTelNoError.setError(telephoneNoErrorMessage);
             isTelNoValid = false;
         } else {
@@ -151,7 +148,7 @@ public class SAdminTempleAdd extends AppCompatActivity {
 
         // Check for a valid address
         if (temple.getTempleAddress().isEmpty()) {
-            addressErrorMessage = "Temple address should not be empty";
+            addressErrorMessage = "පන්සල් ලිපිනය හිස් නොවිය යුතුය";
             addressError.setError(addressErrorMessage);
             isAddressValid = false;
         } else {
@@ -162,11 +159,11 @@ public class SAdminTempleAdd extends AppCompatActivity {
         // Check for a valid email address.
         String email = temple.getEmail();
         if (email.isEmpty()) {
-            emailErrorMessage = "Email should not be empty";
+            emailErrorMessage = "විද්\u200Dයුත් තැපෑල හිස් නොවිය යුතුය";
             emailError.setError(emailErrorMessage);
             isEmailValid = false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailErrorMessage = "Provided email is not valid email";
+            emailErrorMessage = "සපයන ලද විද්\u200Dයුත් තැපෑල වලංගු විද්\u200Dයුත් තැපෑලක් නොවේ";
             emailError.setError(emailErrorMessage);
             isEmailValid = false;
         } else {
@@ -177,19 +174,19 @@ public class SAdminTempleAdd extends AppCompatActivity {
         // Check for a valid password.
         String pw = registerPassword.getText().toString();
         if (pw.isEmpty()) {
-            passwordErrorMessage = "Password should not be empty";
+            passwordErrorMessage = "මුරපදය හිස් නොවිය යුතුය";
             pwError.setError(passwordErrorMessage);
             isPasswordValid = false;
         } else if (pw.length() < 6) {
-            passwordErrorMessage = "Provided password is too short";
+            passwordErrorMessage = "ලබා දුන් මුරපදය ඉතා කෙටි ය";
             pwError.setError(passwordErrorMessage);
             isPasswordValid = false;
         } else if (pw.length() > 6) {
-            passwordErrorMessage = "Provided password is too long";
+            passwordErrorMessage = "ලබා දුන් මුරපදය ඉතා දිගු ය";
             pwError.setError(passwordErrorMessage);
             isPasswordValid = false;
         } else if (!pw.equals(registerConfirmPassword.getText().toString())) {
-            passwordErrorMessage = "Provided password is not matching";
+            passwordErrorMessage = "ලබා දී ඇති මුරපදය නොගැලපේ";
             pwError.setError(passwordErrorMessage);
             isPasswordValid = false;
         } else {
@@ -263,7 +260,7 @@ public class SAdminTempleAdd extends AppCompatActivity {
                         });
                     } else {
                         progressBar.setVisibility(View.GONE);
-                        showErrorDialog("The email address is already in use by another account");
+                        showErrorDialog("ඊමේල් ලිපිනය වෙනත් ගිණුමක් මඟින් දැනටමත් භාවිතා කෙරේ");
                     }
                 } else {
                     showErrorDialog("Internal server error");
@@ -338,16 +335,16 @@ public class SAdminTempleAdd extends AppCompatActivity {
         TextView logOutText = (TextView) avatarLayout.findViewById(R.id.logout_text);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Account");
+        builder.setTitle("ගිණුම");
         builder.setView(avatarLayout);
 
         logOutText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new SweetAlertDialog(SAdminTempleAdd.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Sign Out")
-                        .setContentText("Do you want to sign out from the app? ")
-                        .setConfirmText("Yes")
+                        .setTitleText("ගිණුමෙන් ඉවත්වීම")
+                        .setContentText("ඔබට යෙදුමෙන් ඉවත් වීමට අවශ්‍යද? ")
+                        .setConfirmText("ඔව්")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
@@ -367,7 +364,7 @@ public class SAdminTempleAdd extends AppCompatActivity {
                                 }, 1000);
                             }
                         })
-                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                        .setCancelButton("නැත", new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismiss();
@@ -377,7 +374,7 @@ public class SAdminTempleAdd extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("නැත", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

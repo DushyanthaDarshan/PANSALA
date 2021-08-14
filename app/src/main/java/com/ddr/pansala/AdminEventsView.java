@@ -40,9 +40,6 @@ import java.util.concurrent.ExecutionException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
 public class AdminEventsView extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -150,16 +147,16 @@ public class AdminEventsView extends AppCompatActivity {
         TextView logOutText = (TextView) avatarLayout.findViewById(R.id.logout_text);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Account");
+        builder.setTitle("ගිණුම");
         builder.setView(avatarLayout);
 
         logOutText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new SweetAlertDialog(AdminEventsView.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Sign Out")
-                        .setContentText("Do you want to sign out from the app? ")
-                        .setConfirmText("Yes")
+                        .setTitleText("ගිණුමෙන් ඉවත්වීම")
+                        .setContentText("ඔබට යෙදුමෙන් ඉවත් වීමට අවශ්‍යද? ")
+                        .setConfirmText("ඔව්")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
@@ -179,7 +176,7 @@ public class AdminEventsView extends AppCompatActivity {
                                 }, 1000);
                             }
                         })
-                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                        .setCancelButton("නැත", new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismiss();
@@ -189,7 +186,7 @@ public class AdminEventsView extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("නැත", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

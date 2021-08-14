@@ -32,9 +32,6 @@ import org.jetbrains.annotations.NotNull;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
 public class SignupActivity extends AppCompatActivity {
 
     private EditText registerEmail, registerPassword, registerConfirmPassword, registerName;

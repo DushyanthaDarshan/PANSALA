@@ -34,9 +34,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
 public class MainActivity extends AppCompatActivity {
 
     private EditText loginEmail, loginPassword;

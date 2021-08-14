@@ -35,9 +35,6 @@ import org.jetbrains.annotations.NotNull;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-/**
- * author : Dushyantha Darshan Rubasinghe
- */
 public class AdminAddDanaya extends AppCompatActivity {
 
     private EditText userNameFromXml, timeFromXml, placeFromXml;
@@ -111,16 +108,16 @@ public class AdminAddDanaya extends AppCompatActivity {
         TextView logOutText = (TextView) avatarLayout.findViewById(R.id.logout_text);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Account");
+        builder.setTitle("ගිණුම");
         builder.setView(avatarLayout);
 
         logOutText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new SweetAlertDialog(AdminAddDanaya.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Sign Out")
-                        .setContentText("Do you want to sign out from the app? ")
-                        .setConfirmText("Yes")
+                        .setTitleText("ගිණුමෙන් ඉවත්වීම")
+                        .setContentText("ඔබට යෙදුමෙන් ඉවත් වීමට අවශ්‍යද? ")
+                        .setConfirmText("ඔව්")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
@@ -140,7 +137,7 @@ public class AdminAddDanaya extends AppCompatActivity {
                                 }, 1000);
                             }
                         })
-                        .setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+                        .setCancelButton("නැත", new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismiss();
@@ -150,7 +147,7 @@ public class AdminAddDanaya extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("නැත", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -165,7 +162,7 @@ public class AdminAddDanaya extends AppCompatActivity {
         // Check for a valid event name
         String userName = userNameFromXml.getText().toString();
         if (userName.isEmpty()) {
-            userNameErrorMessage = "User name should not be empty";
+            userNameErrorMessage = "පරිශීලක නාමය තීරුව හිස් නොවිය යුතුය";
             userNameError.setError(userNameErrorMessage);
             isUserNameValid = false;
         } else {
@@ -174,7 +171,7 @@ public class AdminAddDanaya extends AppCompatActivity {
         }
         // Check for a valid date
         if (convertedDate.isEmpty()) {
-            dateErrorMessage = "Date should not be empty";
+            dateErrorMessage = "දිනය තීරුව හිස් නොවිය යුතුය";
             dateError.setError(dateErrorMessage);
             isDateValid = false;
         } else {
@@ -184,7 +181,7 @@ public class AdminAddDanaya extends AppCompatActivity {
         // Check for a valid time
         String time = timeFromXml.getText().toString();
         if (time.isEmpty()) {
-            timeErrorMessage = "Time should not be empty";
+            timeErrorMessage = "කාලය තීරුව හිස් නොවිය යුතුය";
             timeError.setError(timeErrorMessage);
             isTimeValid = false;
         } else {
@@ -194,7 +191,7 @@ public class AdminAddDanaya extends AppCompatActivity {
         // Check for a valid place
         String place = placeFromXml.getText().toString();
         if (place.isEmpty()) {
-            placeErrorMessage = "Place should not be empty";
+            placeErrorMessage = "ස්ථානය හිස් නොවිය යුතුය";
             placeError.setError(placeErrorMessage);
             isPlaceValid = false;
         } else {
